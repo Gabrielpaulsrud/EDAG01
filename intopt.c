@@ -199,6 +199,7 @@ int initial(simplex_t* s, int m, int n, double** a, double* b, double* c, double
     return 0;
 }
 
+int glob;
 double xsimplex(int m, int n, double** a, double* b, double* c, double* x, double y, int* var, int h)
 {
     simplex_t s;
@@ -207,6 +208,7 @@ double xsimplex(int m, int n, double** a, double* b, double* c, double* x, doubl
         free(s.var);
         return NAN;
     }
+    glob += 1;
     while((col = select_nonbasic(&s))>=0) {
         row = -1;
         for (i = 0; i < m; i++) {
@@ -277,6 +279,7 @@ int main(int argc, char** argv)
     print_array(c, n);
     print_a_b(a, b, m, n);
 
+    
     y = simplex(m, n, a, b, c, x, y);
     printf("result. z = %f\n", y);
     
@@ -284,6 +287,7 @@ int main(int argc, char** argv)
 
     free(c);
     free(b);
+    glob +=1;
     for (int i = 0; i<m; i++)
     {
         free(a[i]);
