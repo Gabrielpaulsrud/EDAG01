@@ -18,6 +18,10 @@ struct simplex_t
 
 typedef struct simplex_t simplex_t;
 
+void pivot(simplex_t* s, int row, int col);
+double xsimplex(int m, int n, double** a, double* b, double* c, double* x, double y, int* var, int h);
+
+
 double* scan_vector(double* v, int len)
 {
     int i;
@@ -90,7 +94,7 @@ int init(simplex_t* s, int m, int n, double** a, double* b, double* c, double* x
     s->y = y;
     s->var = var;
     if (s->var == NULL) {
-        s->var = calloc(m+n+1, sizeof(double));
+        s->var = calloc(m+n+1, sizeof(int));
         for (i=0; i<m+n; i++) {
             s->var[i] = i;
         }
@@ -112,6 +116,107 @@ int select_nonbasic(simplex_t* s){
     }
     return -1;
 }
+
+void prepare(simplex_t* s, int k)
+{
+    int m = s->m;
+    int n = s->n;
+    int i;
+    // make room for xm+n at s.var[n] by moving s.var[n..n+m-1] one 
+    // step to the right.
+    for (i=m+n ;i>n; i--) {
+        s->var[i] = s->var[i-1];
+    }
+    s->var[n] = m+n;
+    // add xm+n to each constant
+    n = n + 1;
+    for (i=0; i<m; i++) {
+        s->a[i][n-1] = -1; //arrow?
+    }
+    s->x = calloc(m+n, sizeof(double));
+    s->c = calloc(n, sizeof(double));
+    s->c[n-1] = -1;
+    s->n = n;
+    pivot(s, k, n-1);
+}
+
+int initial(simplex_t* s, int m, int n, double** a, double* b, double* c, double* x, double y, int* var)
+{
+    int i,j,k;
+    double w;
+    k = init(s, m, n, a, b, c, x, y, var);
+    if (b[k] >= 0)
+    {
+        return 1; // feasible
+    }
+    prepare(s, k);
+    n = s->n;
+    s->y = xsimplex(m, n, s->a, s->b, s->c, s->x, 0, s->var, 1);
+    for (i=0; i<m+n; i++) {
+        if (s->var[i] == m+n-1) {
+            if (abs(s->x[i] > epsilon)) {
+                free(s->x);
+                free(s->c);
+                return 0;
+            }
+            else {
+                break;
+            }
+        }
+    }
+    if (i>=n) {
+        for(j=k=0; k<n; k++) {
+            if (fabs(s->a[i-n][k]) > fabs(s->a[i-n][j])) {
+                j=k;
+            }
+        }
+        pivot(s, i-n, j);
+        i=j;
+    }
+    if (i<n-1) {
+        k = s->var[i]; s->var[i] = s->var[n-1]; s->var[n-1] = k;
+        for (k=0; k<m; k++) {
+            w = s->a[k][n-1]; s->a[k][n-1] = s->a[k][i]; s->a[k][i] = w;
+        }
+    }
+    else {
+        //forget xn+m
+    }
+    free(s->c);
+    s->c = c;
+    s->y = y;
+    for (k=n-1; k<n+m-1; k++) {
+        s->var[k] = s->var[k+1];
+    }
+    n = s->n = s->n-1;
+    double* t = calloc(n, sizeof(double));
+    for (k=0; k<n; k++) {
+        for (j=0; j<n; j++) {
+            if (k == s->var[j]) {
+                t[j] = t[j] + s->c[k];
+                goto next_k;
+            }
+        }
+        for (j=0; j<m; j++) {
+            if (s->var[n+j] == k) {
+                break;
+            }
+        }
+        s->y = s->y + s->c[k] * s->b[j];
+        for (i=0; i<n; i++) {
+            t[i] = t[i] - s->c[k] * s->a[j][i];
+        }
+        next_k:
+            continue;
+    }
+    for (i=0; i<n; i++) {
+        s->c[i] = t[i];
+    }
+    free(t);
+    free(s->x);
+    return 1;
+}
+
 
 void pivot(simplex_t* s, int row, int col)
 {
@@ -160,46 +265,7 @@ void pivot(simplex_t* s, int row, int col)
 }
 
 
-void prepare(simplex_t* s, int k)
-{
-    int m = s->m;
-    int n = s->n;
-    int i;
-    // make room for xm+n at s.var[n] by moving s.var[n..n+m-1] one 
-    // step to the right.
-    for (i=m+n;i>n;i=i-1)
-    {
-        s->var[i] = s->var[i-1];
-    }
-    s->var[n] = m+n;
-    // add xm+n to each constant
-    n = n + 1;
-    for (i=0;i<m;i+=1)
-    {
-        s->a[i][n-1] = -1; //arrow?
-    }
-    s->x = calloc(m+n, sizeof(double));
-    s->c = calloc(n, sizeof(double));
-    s->c[n-1] = -1;
-    s->n = n;
-    pivot(s, k, n-1);
-}
 
-int initial(simplex_t* s, int m, int n, double** a, double* b, double* c, double* x, double y, int* var)
-{
-    int i,j,k;
-    double w;
-    k = init(s, m, n, a, b, c, x, y, var);
-    if (b[k] >= 0)
-    {
-        return 1; // feasible
-    }
-    printf("OHH NOO");
-    prepare(s, k);
-    return 0;
-}
-
-int glob;
 double xsimplex(int m, int n, double** a, double* b, double* c, double* x, double y, int* var, int h)
 {
     simplex_t s;
@@ -208,7 +274,6 @@ double xsimplex(int m, int n, double** a, double* b, double* c, double* x, doubl
         free(s.var);
         return NAN;
     }
-    glob += 1;
     while((col = select_nonbasic(&s))>=0) {
         row = -1;
         for (i = 0; i < m; i++) {
@@ -247,10 +312,9 @@ double xsimplex(int m, int n, double** a, double* b, double* c, double* x, doubl
             x[i] = s.b[i-n];
         }
     }
-    free(s.x);
+    // free(s.x);
     // free(s.c);
-    double ret = s.y;
-    return ret;
+    return s.y;
 }
 
 double simplex(int m, int n, double** a, double* b, double* c, double* x, double y)
@@ -272,6 +336,7 @@ int main(int argc, char** argv)
     scan_vector(b, m);
 
     double* x = calloc(n+1, sizeof(double));
+    
     double y = 0.0;
 
     // print stuff
@@ -279,15 +344,13 @@ int main(int argc, char** argv)
     print_array(c, n);
     print_a_b(a, b, m, n);
 
-    
     y = simplex(m, n, a, b, c, x, y);
     printf("result. z = %f\n", y);
-    
+
     print_system(c, a, b, m, n);
 
     free(c);
     free(b);
-    glob +=1;
     for (int i = 0; i<m; i++)
     {
         free(a[i]);
