@@ -356,6 +356,7 @@ int main(int argc, char** argv)
         free(a[i]);
     }
     free(a);
+    free(x);
 
     return 0;
 }
