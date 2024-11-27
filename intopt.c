@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 double epsilon = 0.000001;
@@ -16,7 +17,34 @@ struct simplex_t
     double y;
 };
 
+struct node_t
+{
+    int m;
+    int n;
+    int k;
+    int h;
+    double xh;
+    double ak;
+    double bk;
+    double* min;
+    double* max;
+    double** a;
+    double* b; 
+    double* x;
+    double* c;
+    double z;
+    node_t* next;
+};
+
+
+
+struct linked_nodes_t {
+    node_t* head;
+};
+
+typedef struct node_t node_t;
 typedef struct simplex_t simplex_t;
+typedef struct linked_nodes_t linked_nodes_t;
 
 void pivot(simplex_t* s, int row, int col);
 double xsimplex(int m, int n, double** a, double* b, double* c, double* x, double y, int* var, int h);
@@ -154,7 +182,7 @@ int initial(simplex_t* s, int m, int n, double** a, double* b, double* c, double
     s->y = xsimplex(m, n, s->a, s->b, s->c, s->x, 0, s->var, 1);
     for (i=0; i<m+n; i++) {
         if (s->var[i] == m+n-1) {
-            if (abs(s->x[i] > epsilon)) {
+            if (abs(s->x[i]) > epsilon) {
                 free(s->x);
                 free(s->c);
                 return 0;
@@ -322,8 +350,172 @@ double simplex(int m, int n, double** a, double* b, double* c, double* x, double
     return xsimplex(m, n, a, b, c, x, y, NULL, 0);
 }
 
-int main(int argc, char** argv)
-{
+node_t* initial_node(int m, int n, double** a, double* b, double*c) {
+    node_t* p = calloc(1, sizeof(node_t));
+    p->a = make_matrix(m+1, n+1);
+    p->b = calloc(m+1, sizeof(double));
+    p->c = calloc(n+1, sizeof(double));
+    p->x = calloc(n+1, sizeof(double));
+    p->min = calloc(n, sizeof(double));
+    p->max = calloc(n, sizeof(double));
+    p->m = m;
+    p->n = n;
+
+    int i;
+    for (i=0; i<=m; i++) {
+        memcpy(p->a[i], a[i], (n+1)*sizeof(double)); //Todo, very unsure (n+1??)
+    }
+
+    memcpy(p->b, b, (m)*sizeof(double)); //Todo, Should it be +1?
+    memcpy(p->c, c, (n+1)*sizeof(double));
+    for (i=0; i<n; i++){
+        p->min[i] = -INFINITY;
+        p->max[i] = INFINITY;
+    }
+    return p;
+}
+
+void extend(node_t* p, int m, int n, double** a, double* b, double* c, int k, double ak, double bk) {
+    node_t* q = calloc(1, sizeof(node_t));
+    int i,j;
+    q->k = k;
+    q->ak = ak;
+    q->bk = bk;
+    if (ak > 0 && p->max[k] < INFINITY){
+        q->m = p->m;
+    }
+    else if (ak < 0 && p->min[k] > 0) {
+        q->m = p->m;
+    }
+    else {
+        q->m = p->m + 1;
+    }
+    q->n = p->n;
+    q->h = -1;
+    q->a = make_matrix(q->m+1, q->n+1);
+    q->b = calloc(q->m+1, sizeof(double));
+    q->c = calloc(q->n+1, sizeof(double));
+    q->x = calloc(q->n+1, sizeof(double));
+    q->min = calloc(n, sizeof(double));
+    q->max = calloc(n, sizeof(double));
+    // Memcopy(dest, src, count)
+    memcpy(q->min, p->min, n* sizeof(double)); //TODO, ensure this
+    memcpy(q->max, p->max, n* sizeof(double));
+    for(i=0; i<m; i++) {
+        memcpy(q->a[m], a[m], (n+1)*sizeof(double)); //still unsure
+    }
+    memcpy(q->b, b, m*sizeof(double_t));
+    memcpy(q->c, c, (n+1)*sizeof(double_t)); //n+1?
+    //TODO copying
+    if (ak > 0) {
+        if (q->max[k] == INFINITY || bk < q->max[k]) {
+            q->max[k] = bk;
+        }
+    }
+    else if (q->min[k] == -INFINITY || -bk > q->min[k]) {
+        q->min[k] = -bk;
+    }
+    for (i=m; j=0; j++) {
+        if (q->min[j] > -INFINITY) {
+            q->a[i][j] = -1;
+            q->b[i] = -q->min[j];
+            i++;
+        }
+        if (q->max[j] < INFINITY) {
+            q->a[i][j] = 1;
+            q->b[i] = q->max[j];
+            i++;
+        }
+    }
+    return q;
+}
+
+int is_integer(double* xp) {
+    double x = *xp;
+    double r = round(x);
+    if (fabs(r-x)<epsilon) {
+        *xp = r;
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+int integer(node_t* p) {
+    int i;
+    for (i = 0; i<p->n; i++) {
+        if (!is_integer(&p->x[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int bound(node_t* p, int h, double* zp, int x){
+    if (p->z > *zp) {
+        *zp = p->z;
+        memcpy(x, p->x, m*sizeof(double));
+    }
+}
+
+int branch(node_t* q, double z) {
+    double min, max;
+    int h;
+    if (q->z < z) {
+        return 0;
+    }
+    for (h=0; h<q->n; h++) {
+        if (!is_integer(&q->x[h])) {
+            if (q->min[h] == -INFINITY) {
+                min = 0;
+            }
+            else {
+                min = q->min[h];
+            }
+            max = q->max[h];
+            if (floor(q->x[h])<min || roof(q->x[h])>max) {
+                continue;
+            }
+            q->h = h;
+            q->xh = q->x[h];
+            // free() something TODO
+            return 1;
+        }
+    }
+    return 0;
+}
+
+// void succ(node_t* p,)
+void add_to_linked_list(linked_nodes_t* h, node_t* p) {
+    p->next = h->head;
+    h->head = p;
+}
+
+double intopt(int m, int n, double** a, double* b, double* c, double* x) {
+    node_t* p = initial_node(m, n, a, b, c);
+    linked_nodes_t* h;
+    add_to_linked_list(h, p);
+    double z = -INFINITY;
+    p->z = simplex(p->m, p->n, p->a, p->b, p->c, p->x, 0);
+    if (integer(p) || !isfinite(p->z)) {
+        z = p->z;
+        if (integer(p)) {
+            memcpy(x, p->x, (n+1)*sizeof(double));
+        }
+        free(p);
+        return z;
+    }
+    branch(p, z);
+    while (h->head != NULL) {
+        /* code */
+    }
+    
+}
+
+
+
+int main(int argc, char** argv) {
     int m, n;
     scanf("%d %d", &m, &n);
     double* c = calloc(n+1, sizeof(double));
