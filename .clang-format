@@ -1,0 +1,11 @@
+BasedOnStyle: LLVM  # Or any base style you prefer
+ColumnLimit: 80     # Adjust for line length preference
+BinPackParameters: false
+AllowAllParametersOfDeclarationOnNextLine: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: false  # Ensure `{` stays on the same line
+  BeforeCatch: true
+  BeforeElse: true
+  IndentBraces: false    # Avoid extra indentation for braces
+SpaceBeforeParens: ControlStatements  # Adds space before `if ()`, `while ()`, etc.
