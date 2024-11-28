@@ -5,6 +5,10 @@
 
 double epsilon = 0.000001;
 
+typedef struct node_t node_t;
+typedef struct simplex_t simplex_t;
+typedef struct linked_nodes_t linked_nodes_t;
+
 struct simplex_t {
   int m;
   int n;
@@ -38,9 +42,6 @@ struct linked_nodes_t {
   node_t *head;
 };
 
-typedef struct node_t node_t;
-typedef struct simplex_t simplex_t;
-typedef struct linked_nodes_t linked_nodes_t;
 
 void pivot(simplex_t *s, int row, int col);
 double xsimplex(int m,
@@ -59,7 +60,7 @@ void push(linked_nodes_t *h, node_t *p) {
 }
 
 node_t *pop(linked_nodes_t *h) {
-  if (h->head = NULL) {
+  if (h->head == NULL) {
     return NULL;
   }
   node_t *p = h->head;
@@ -200,7 +201,7 @@ int initial(simplex_t *s,
   s->y = xsimplex(m, n, s->a, s->b, s->c, s->x, 0, s->var, 1);
   for (i = 0; i < m + n; i++) {
     if (s->var[i] == m + n - 1) {
-      if (abs(s->x[i]) > epsilon) {
+      if (fabs(s->x[i]) > epsilon) {
         free(s->x);
         free(s->c);
         return 0;
@@ -449,7 +450,7 @@ node_t *extend(node_t *p,
   else if (q->min[k] == -INFINITY || -bk > q->min[k]) {
     q->min[k] = -bk;
   }
-  for (i = m; j = 0; j++) {
+  for (i = m, j = 0; j<n; j++) {
     if (q->min[j] > -INFINITY) {
       q->a[i][j] = -1;
       q->b[i] = -q->min[j];
@@ -486,7 +487,7 @@ int integer(node_t *p) {
   return 1;
 }
 
-int bound(node_t *p, linked_nodes_t* h, double *zp, double* x) {
+void bound(node_t *p, linked_nodes_t* h, double *zp, double* x) {
   if (p->z > *zp) {
     *zp = p->z;
     memcpy(x, p->x, p->m * sizeof(double)); //todo unsure?
@@ -521,7 +522,7 @@ int branch(node_t *q, double z) {
         min = q->min[h];
       }
       max = q->max[h];
-      if (floor(q->x[h]) < min || roof(q->x[h]) > max) {
+      if (floor(q->x[h]) < min || ceil(q->x[h]) > max) {
         continue;
       }
       q->h = h;
@@ -584,7 +585,7 @@ double intopt(int m, int n, double **a, double *b, double *c, double *x) {
   while (h->head != NULL) {
     p = pop(h);
     succ(p, h, m, n, a, b, c, p->h, 1, floor(p->xh), &z, x);
-    succ(p, h, m, n, a, b, c, p->h, -1, -roof(p->xh), &z, x);
+    succ(p, h, m, n, a, b, c, p->h, -1, -ceil(p->xh), &z, x);
     free(p);
   }
   if (z == -INFINITY) {
