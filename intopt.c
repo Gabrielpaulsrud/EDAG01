@@ -154,7 +154,7 @@ int initial(simplex_t* s, int m, int n, double** a, double* b, double* c, double
     s->y = xsimplex(m, n, s->a, s->b, s->c, s->x, 0, s->var, 1);
     for (i=0; i<m+n; i++) {
         if (s->var[i] == m+n-1) {
-            if (abs(s->x[i] > epsilon)) {
+            if (abs(s->x[i]) > epsilon) {
                 free(s->x);
                 free(s->c);
                 return 0;
