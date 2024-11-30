@@ -117,6 +117,49 @@ void print_system(double *c, double **a, double *b, int m, int n) {
   print_a_b(a, b, m, n);
 }
 
+void free_node_full(node_t* p) {
+        free(p->c);
+        free(p->b);
+        for (int i = 0; i < p->m; i++) {
+              free(p->a[i]);
+        }
+        free(p->a);
+        free(p->x);
+        free(p->min);
+        free(p->max);
+        free(p);
+}
+
+void free_node_partial(node_t* p) {
+	free(p->min);
+	free(p->max);	
+	free(p);
+}
+
+void safe_free(void **ptr) {
+    if (ptr != NULL && *ptr != NULL) {
+        free(*ptr);
+        *ptr = NULL; // Set the original pointer to NULL
+    }
+}
+
+void free_node(node_t* p) {
+	safe_free((void **)&p->c);
+        safe_free((void **)&p->b);
+        if (p->a != NULL) {
+		for (int i = 0; i < p->m+1; i++) {
+              		free(p->a[i]);
+        	}
+		free(p->a);
+		p->a = NULL;
+	}
+        safe_free((void **)&p->a);
+        safe_free((void **)&p->x);
+        safe_free((void **)&p->min);
+        safe_free((void **)&p->max);
+        safe_free((void **)&p);	
+}
+
 int init(simplex_t *s,
          int m,
          int n,
@@ -491,19 +534,20 @@ void bound(node_t *p, linked_nodes_t* h, double *zp, double* x) {
   if (p->z > *zp) {
     *zp = p->z;
     memcpy(x, p->x, p->m * sizeof(double)); //todo unsure?
-    linked_nodes_t *rinsed_nodes;
-    rinsed_nodes->head = NULL;
+    linked_nodes_t rinsed_nodes; // = calloc(1, sizeof(linked_nodes_t));
+    rinsed_nodes.head = NULL;
     node_t* q;
     while (h->head != NULL){
         q = pop(h);
         if(q->z >= p->z) {
-            push(rinsed_nodes, q);
+            push(&rinsed_nodes, q);
         }
         else {
-            free(q);
+            //free(q);
+	    free_node(q);
         }
     }
-    h->head = rinsed_nodes->head;
+    h->head = rinsed_nodes.head;
   }
 }
 
@@ -528,10 +572,17 @@ int branch(node_t *q, double z) {
       q->h = h;
       q->xh = q->x[h];
       //todo ensure frees
-      free(q->a);
-      free(q->b);
-      free(q->c);
-      free(q->x);
+      if (q->a != NULL) {
+                for (int i = 0; i < q->m+1; i++) {
+                        free(q->a[i]);
+                }
+                free(q->a);
+                q->a = NULL;
+        }
+      //safe_free((void **)&q->a);
+      safe_free((void **)&q->b);
+      safe_free((void **)&q->c);
+      safe_free((void **)&q->x);
       return 1;
     }
   }
@@ -564,13 +615,16 @@ void succ(node_t *p,
         return;
     }
   }
-  free(q);
+  //free(q->min);
+  //free(q->max);
+  free_node(q);
 }
 
 double intopt(int m, int n, double **a, double *b, double *c, double *x) {
   node_t *p = initial_node(m, n, a, b, c);
-  linked_nodes_t *h;
-  push(h, p);
+  linked_nodes_t h;
+  h.head = NULL;
+  push(&h, p);
   double z = -INFINITY;
   p->z = simplex(p->m, p->n, p->a, p->b, p->c, p->x, 0);
   if (integer(p) || !isfinite(p->z)) {
@@ -578,15 +632,15 @@ double intopt(int m, int n, double **a, double *b, double *c, double *x) {
     if (integer(p)) {
       memcpy(x, p->x, (n + 1) * sizeof(double));
     }
-    free(p);
+    free_node(p);
     return z;
   }
   branch(p, z);
-  while (h->head != NULL) {
-    p = pop(h);
-    succ(p, h, m, n, a, b, c, p->h, 1, floor(p->xh), &z, x);
-    succ(p, h, m, n, a, b, c, p->h, -1, -ceil(p->xh), &z, x);
-    free(p);
+  while (h.head != NULL) {
+    p = pop(&h);
+    succ(p, &h, m, n, a, b, c, p->h, 1, floor(p->xh), &z, x);
+    succ(p, &h, m, n, a, b, c, p->h, -1, -ceil(p->xh), &z, x);
+    free_node(p);
   }
   if (z == -INFINITY) {
     return NAN;

@@ -1,2 +1,7 @@
 *a.out*
 .DS_store
+*.o
+*.swp
+*.swo
+*.swn
+
