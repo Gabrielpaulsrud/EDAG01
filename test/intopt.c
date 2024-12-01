@@ -356,7 +356,24 @@ void pivot(simplex_t *s, int row, int col) {
   a[row][col] = 1 / a[row][col];
 }
 
-int simplex_i = 0;
+int simplex_i = 1;
+
+void print_simplex(double** a, double* b, double* c, double* x, int m, int n) {
+  printf("\n");
+  printf("simplex %d\n", simplex_i);
+  simplex_i ++;
+  printf("maximize: %9.3lf xx + %9.3lf xx + XXX\n", c[0], c[1]);
+  int i, j;
+
+  printf("subject to");
+  for (i = 0; i<m; i++){
+    printf("xx = %9.3lf - (", b[0]);
+    for (j=0; j<n; j++){
+      printf("%9.3lf x_x +", a[i][j]);
+    }
+    printf("\n");
+  }
+}
 
 double xsimplex(int m,
                 int n,
@@ -371,8 +388,7 @@ double xsimplex(int m,
 
 
 	simplex_t s;
-  printf("simplex %d\n", simlex_i);
-  simplex_i ++;
+  print_simplex(a, b, c, x, m, n);
   int i, row, col;
   if (!initial(&s, m, n, a, b, c, x, y, var)) {
     free(s.var);
