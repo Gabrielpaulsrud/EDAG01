@@ -102,7 +102,7 @@ static void check(void)
 	s = fscanf(sol, "z = %lf", &z_sol);
 
 	fclose(sol);
-
+	printf("Expected %f, got %f\n", z_sol, z);
 	if (s != 1)
 		goto dealloc;
 

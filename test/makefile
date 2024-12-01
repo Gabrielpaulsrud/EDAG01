@@ -14,6 +14,11 @@ main: $(OBJS)
 	rm -f score
 	./a.out -t 20
 
+# Debug target (no optimization, with debugging symbols)
+debug: CFLAGS = -g -std=c18 -pedantic -Werror
+debug: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o a.out
+
 clean:
 	rm -f *.o a.out
 

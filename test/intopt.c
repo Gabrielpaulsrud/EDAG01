@@ -356,6 +356,8 @@ void pivot(simplex_t *s, int row, int col) {
   a[row][col] = 1 / a[row][col];
 }
 
+int simplex_i = 0;
+
 double xsimplex(int m,
                 int n,
                 double **a,
@@ -365,7 +367,12 @@ double xsimplex(int m,
                 double y,
                 int *var,
                 int h) {
-  simplex_t s;
+  
+
+
+	simplex_t s;
+  printf("simplex %d\n", simlex_i);
+  simplex_i ++;
   int i, row, col;
   if (!initial(&s, m, n, a, b, c, x, y, var)) {
     free(s.var);
