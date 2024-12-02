@@ -144,20 +144,20 @@ void safe_free(void **ptr) {
 }
 
 void free_node(node_t* p) {
-	safe_free((void **)&p->c);
-        safe_free((void **)&p->b);
-        if (p->a != NULL) {
-		for (int i = 0; i < p->m+1; i++) {
-              		free(p->a[i]);
-        	}
-		free(p->a);
-		p->a = NULL;
-	}
-        safe_free((void **)&p->a);
-        safe_free((void **)&p->x);
-        safe_free((void **)&p->min);
-        safe_free((void **)&p->max);
-        safe_free((void **)&p);	
+  safe_free((void **)&p->c);
+  safe_free((void **)&p->b);
+  if (p->a != NULL) {
+    for (int i = 0; i < p->m + 1; i++) {
+      free(p->a[i]);
+    }
+    free(p->a);
+    p->a = NULL;
+  }
+  safe_free((void **)&p->a);
+  safe_free((void **)&p->x);
+  safe_free((void **)&p->min);
+  safe_free((void **)&p->max);
+  safe_free((void **)&p);
 }
 
 int init(simplex_t *s,
@@ -196,6 +196,7 @@ int select_nonbasic(simplex_t *s) {
   int i;
   for (i = 0; i < s->n; i++) {
     if (s->c[i] > epsilon) {
+      printf("col = %d\n", i);
       return i;
     }
   }
@@ -312,6 +313,7 @@ int initial(simplex_t *s,
 }
 
 void pivot(simplex_t *s, int row, int col) {
+  printf("pivot row=%d col=%d\n", row, col);
   double **a = s->a;
   double *b = s->b;
   double *c = s->c;
@@ -356,22 +358,21 @@ void pivot(simplex_t *s, int row, int col) {
   a[row][col] = 1 / a[row][col];
 }
 
-int simplex_i = 1;
+int simplex_i = 0;
 
-void print_simplex(double** a, double* b, double* c, double* x, int m, int n) {
+void print_simplex(double** a, double* b, double* c, double* x, int* var, int m, int n) {
   printf("\n");
   printf("simplex %d\n", simplex_i);
-  simplex_i ++;
-  printf("maximize: %9.3lf xx + %9.3lf xx + XXX\n", c[0], c[1]);
+  printf("maximize: %9.1lf x_%d + %9.1lf x_%d + XXX\n", c[0], var[0], c[1], var[1]);
   int i, j;
 
-  printf("subject to");
+  printf("subject to\n");
   for (i = 0; i<m; i++){
-    printf("xx = %9.3lf - (", b[0]);
+    printf("      x_%d = %9.1lf - (", var[2], b[i]);
     for (j=0; j<n; j++){
-      printf("%9.3lf x_x +", a[i][j]);
+      printf("%9.1lf x_%d +", a[i][j], var[j]);
     }
-    printf("\n");
+    printf(")\n");
   }
 }
 
@@ -384,16 +385,14 @@ double xsimplex(int m,
                 double y,
                 int *var,
                 int h) {
-  
-
-
+  simplex_i ++;
 	simplex_t s;
-  print_simplex(a, b, c, x, m, n);
   int i, row, col;
   if (!initial(&s, m, n, a, b, c, x, y, var)) {
     free(s.var);
     return NAN;
   }
+  print_simplex(a, b, c, x, s.var, m, n);
   while ((col = select_nonbasic(&s)) >= 0) {
     row = -1;
     for (i = 0; i < m; i++) {
@@ -407,6 +406,7 @@ double xsimplex(int m,
       return INFINITY;
     }
     pivot(&s, row, col);
+    print_simplex(a, b, c, x, s.var, m, n);
     // printf("PIVOTED");
     // print_system(c, a, b, m, n);
   }
@@ -433,6 +433,8 @@ double xsimplex(int m,
   }
   // free(s.x);
   // free(s.c);
+  printf("Found z = %9.1lf\n", s.y);
+  printf("------------------------------------");
   return s.y;
 }
 
@@ -503,7 +505,7 @@ node_t *extend(node_t *p,
   memcpy(q->min, p->min, n * sizeof(double)); // TODO, ensure this
   memcpy(q->max, p->max, n * sizeof(double));
   for (i = 0; i < m; i++) {
-    memcpy(q->a[m], a[m], (n + 1) * sizeof(double)); // still unsure
+    memcpy(q->a[i], a[i], (n + 1) * sizeof(double)); // still unsure
   }
   memcpy(q->b, b, m * sizeof(double_t));
   memcpy(q->c, c, (n + 1) * sizeof(double_t)); // n+1?
@@ -556,7 +558,7 @@ int integer(node_t *p) {
 void bound(node_t *p, linked_nodes_t* h, double *zp, double* x) {
   if (p->z > *zp) {
     *zp = p->z;
-    memcpy(x, p->x, p->m * sizeof(double)); //todo unsure?
+    memcpy(x, p->x, p->n * sizeof(double)); //todo unsure?
     linked_nodes_t rinsed_nodes; // = calloc(1, sizeof(linked_nodes_t));
     rinsed_nodes.head = NULL;
     node_t* q;
@@ -566,8 +568,8 @@ void bound(node_t *p, linked_nodes_t* h, double *zp, double* x) {
             push(&rinsed_nodes, q);
         }
         else {
-            //free(q);
-	    free_node(q);
+          //free(q);
+	        free_node(q);
         }
     }
     h->head = rinsed_nodes.head;
@@ -596,12 +598,12 @@ int branch(node_t *q, double z) {
       q->xh = q->x[h];
       //todo ensure frees
       if (q->a != NULL) {
-                for (int i = 0; i < q->m+1; i++) {
-                        free(q->a[i]);
-                }
-                free(q->a);
-                q->a = NULL;
+        for (int i = 0; i < q->m+1; i++) {
+                free(q->a[i]);
         }
+        free(q->a);
+        q->a = NULL;
+      }
       //safe_free((void **)&q->a);
       safe_free((void **)&q->b);
       safe_free((void **)&q->c);
@@ -634,7 +636,7 @@ void succ(node_t *p,
         bound(q, h ,zp, x);
     }
     else if (branch(q, *zp)) {
-        push(h, p);
+        push(h, q);
         return;
     }
   }
@@ -665,6 +667,7 @@ double intopt(int m, int n, double **a, double *b, double *c, double *x) {
     succ(p, &h, m, n, a, b, c, p->h, -1, -ceil(p->xh), &z, x);
     free_node(p);
   }
+
   if (z == -INFINITY) {
     return NAN;
   }

@@ -12,11 +12,15 @@ OBJS	= intopt.o main.o error.o
 main: $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS)
 	rm -f score
-	./a.out -t 20
+	./a.out -t 4
 
 # Debug target (no optimization, with debugging symbols)
 debug: CFLAGS = -g -std=c18 -pedantic -Werror
 debug: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o a.out
+
+fsan: CFLAGS = -g -fsanitize=address -fsanitize=undefined -std=c18 -pedantic -Werror
+fsan: $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o a.out
 
 clean:
