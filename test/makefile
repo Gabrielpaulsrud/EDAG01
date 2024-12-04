@@ -12,7 +12,7 @@ OBJS	= intopt.o main.o error.o
 main: $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS)
 	rm -f score
-	./a.out -t 10
+	./a.out -t 5
 
 # Debug target (no optimization, with debugging symbols)
 debug: CFLAGS = -g -std=c18 -pedantic -Werror
