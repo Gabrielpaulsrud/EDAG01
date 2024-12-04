@@ -22,7 +22,7 @@
 #include "error.h"
 #include "intopt.h"
 
-#define N			(3)		/* max m and n. */
+#define N			(20)		/* max m and n. */
 
 char			cwd[BUFSIZ];		/* dir where we started in main. */
 uint64_t		pass[N+1];		/* pass[i] = passed cases for m = n = i. */

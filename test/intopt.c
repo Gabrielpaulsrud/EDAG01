@@ -3,7 +3,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-double epsilon = 0.000001;
+// double epsilon = 0.000001;
+const double epsilon = 0.000001;
+
+#define PRINT		0	/* enable/disable prints. */
+
+#if PRINT
+#define pr(...)		do { fpr(stderr, __VA_ARGS__); } while (0)
+#else
+#define pr(...)		/* no effect at all */
+#endif
 
 typedef struct node_t node_t;
 typedef struct simplex_t simplex_t;
@@ -89,7 +98,7 @@ double **make_matrix(int m, int n) {
 void scan_matrix(double **m, int row, int col) {
   for (int i = 0; i < row; i++) {
     for (int j = 0; j < col; j++) {
-      // printf("i = %d, j = %d\n", i, j);
+      // pr("i = %d, j = %d\n", i, j);
       scanf("%lf", &m[i][j]);
     }
   }
@@ -97,22 +106,22 @@ void scan_matrix(double **m, int row, int col) {
 
 void print_array(double *array, int len) {
   for (int i = 0; i < len; i++) {
-    printf("%12.3lf", array[i]);
+    pr("%12.3lf", array[i]);
   }
-  printf("\n");
+  pr("\n");
 }
 
 void print_a_b(double **a, double *b, int m, int n) {
   for (int i = 0; i < m; i++) {
     for (int j = 0; j < n; j++) {
-      printf("%12.3lf", a[i][j]);
+      pr("%12.3lf", a[i][j]);
     }
-    printf(" \u2264 %9.3lf\n", b[i]);
+    pr(" \u2264 %9.3lf\n", b[i]);
   }
 }
 
 void print_system(double *c, double **a, double *b, int m, int n) {
-  printf("%-12s", "max z =");
+  pr("%-12s", "max z =");
   print_array(c, n);
   print_a_b(a, b, m, n);
 }
@@ -196,7 +205,7 @@ int select_nonbasic(simplex_t *s) {
   int i;
   for (i = 0; i < s->n; i++) {
     if (s->c[i] > epsilon) {
-      printf("col = %d\n", i);
+      // pr("col = %d\n", i);
       return i;
     }
   }
@@ -313,7 +322,7 @@ int initial(simplex_t *s,
 }
 
 void pivot(simplex_t *s, int row, int col) {
-  printf("pivot row=%d col=%d\n", row, col);
+  // pr("pivot row=%d col=%d\n", row, col);
   double **a = s->a;
   double *b = s->b;
   double *c = s->c;
@@ -361,18 +370,18 @@ void pivot(simplex_t *s, int row, int col) {
 int simplex_i = 0;
 
 void print_simplex(double** a, double* b, double* c, double* x, int* var, int m, int n) {
-  printf("\n");
-  printf("simplex %d\n", simplex_i);
-  printf("maximize: %9.1lf x_%d + %9.1lf x_%d + XXX\n", c[0], var[0], c[1], var[1]);
+  pr("\n");
+  pr("simplex %d\n", simplex_i);
+  pr("maximize: %9.1lf x_%d + %9.1lf x_%d + XXX\n", c[0], var[0], c[1], var[1]);
   int i, j;
 
-  printf("subject to\n");
+  pr("subject to\n");
   for (i = 0; i<m; i++){
-    printf("      x_%d = %9.1lf - (", var[2], b[i]);
+    pr("      x_%d = %9.1lf - (", var[2], b[i]);
     for (j=0; j<n; j++){
-      printf("%9.1lf x_%d +", a[i][j], var[j]);
+      pr("%9.1lf x_%d +", a[i][j], var[j]);
     }
-    printf(")\n");
+    pr(")\n");
   }
 }
 
@@ -392,7 +401,7 @@ double xsimplex(int m,
     free(s.var);
     return NAN;
   }
-  print_simplex(a, b, c, x, s.var, m, n);
+  //print_simplex(a, b, c, x, s.var, m, n);
   while ((col = select_nonbasic(&s)) >= 0) {
     row = -1;
     for (i = 0; i < m; i++) {
@@ -406,8 +415,8 @@ double xsimplex(int m,
       return INFINITY;
     }
     pivot(&s, row, col);
-    print_simplex(a, b, c, x, s.var, m, n);
-    // printf("PIVOTED");
+    //print_simplex(a, b, c, x, s.var, m, n);
+    // pr("PIVOTED");
     // print_system(c, a, b, m, n);
   }
   if (h == 0) {
@@ -433,8 +442,8 @@ double xsimplex(int m,
   }
   // free(s.x);
   // free(s.c);
-  printf("Found z = %9.1lf\n", s.y);
-  printf("------------------------------------");
+  // pr("Found z = %9.1lf\n", s.y);
+  // pr("------------------------------------");
   return s.y;
 }
 
@@ -693,12 +702,12 @@ double intopt(int m, int n, double **a, double *b, double *c, double *x) {
 //   double y = 0.0;
 
 //   // print stuff
-//   printf("%-12s", "max z =");
+//   pr("%-12s", "max z =");
 //   print_array(c, n);
 //   print_a_b(a, b, m, n);
 
 //   y = simplex(m, n, a, b, c, x, y);
-//   printf("result. z = %f\n", y);
+//   pr("result. z = %f\n", y);
 
 //   print_system(c, a, b, m, n);
 
