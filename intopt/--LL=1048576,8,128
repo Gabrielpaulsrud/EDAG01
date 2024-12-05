@@ -1,0 +1,9 @@
+Expected 315.000000, got 315.000000
+Expected 0.000000, got 0.000000
+Expected 40.000000, got 40.000000
+Expected 0.000000, got 0.000000
+Expected 0.000000, got 0.000000
+
+--- make score -------------------------
+n =  2, pass =        5 value =       20
+score = 20 for t = 2 s

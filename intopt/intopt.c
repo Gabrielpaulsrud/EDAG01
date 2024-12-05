@@ -7,7 +7,7 @@
 const double epsilon = 0.000001;
 
 #define PRINT		0	/* enable/disable prints. */
-
+#define MAIN 0 // Enables main
 #if PRINT
 #define pr(...)		do { fpr(stderr, __VA_ARGS__); } while (0)
 #else
@@ -685,39 +685,44 @@ double intopt(int m, int n, double **a, double *b, double *c, double *x) {
   }
 }
 
-// int main(int argc, char **argv) {
-//   int m, n;
-//   scanf("%d %d", &m, &n);
-//   double *c = calloc(n + 1, sizeof(double));
-//   scan_vector(c, n);
+#if MAIN
+int main(int argc, char **argv) {
+   int m, n;
+   scanf("%d %d", &m, &n);
+   double *c = calloc(n + 1, sizeof(double));
+   scan_vector(c, n);
 
-//   double **a = make_matrix(m, n + 1);
-//   scan_matrix(a, m, n);
+   double **a = make_matrix(m, n + 1);
+   scan_matrix(a, m, n);
 
-//   double *b = calloc(m, sizeof(double));
-//   scan_vector(b, m);
+   double *b = calloc(m, sizeof(double));
+   scan_vector(b, m);
 
-//   double *x = calloc(n + 1, sizeof(double));
+   double *x = calloc(n + 1, sizeof(double));
 
-//   double y = 0.0;
+   double z = 0.0;
 
-//   // print stuff
-//   pr("%-12s", "max z =");
-//   print_array(c, n);
-//   print_a_b(a, b, m, n);
+   // print stuff
+   pr("%-12s", "max z =");
+   print_array(c, n);
+   print_a_b(a, b, m, n);
 
-//   y = simplex(m, n, a, b, c, x, y);
-//   pr("result. z = %f\n", y);
+    //double y = 0;
+    //y = simplex(m, n, a, b, c, x, y);
+    //printf("result. y = %f\n", y);   
+    z = intopt(m, n, a, b, c, x);   
+    printf("result. z = %f\n", z);
 
-//   print_system(c, a, b, m, n);
+   // print_system(c, a, b, m, n);
 
-//   free(c);
-//   free(b);
-//   for (int i = 0; i < m; i++) {
-//     free(a[i]);
-//   }
-//   free(a);
-//   free(x);
+   free(c);
+   free(b);
+   for (int i = 0; i < m; i++) {
+     free(a[i]);
+   }
+   free(a);
+   free(x);
 
-//   return 0;
-// }
+   return 0;
+ }
+#endif
