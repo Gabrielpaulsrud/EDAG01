@@ -1,0 +1,18 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     rpn
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003788, symSize: 0x3DC }
+  - { offsetInCU: 0x41, offset: 0x41, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003788, symSize: 0x3DC }
+  - { offsetInCU: 0x26, offset: 0x15C, size: 0x8, addend: 0x0, symName: ___check_malloc, symObjAddr: 0x0, symBinAddr: 0x100003B64, symSize: 0x5C }
+  - { offsetInCU: 0x3F, offset: 0x175, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0x13C8, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offsetInCU: 0x73, offset: 0x1A9, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0x13C8, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offsetInCU: 0x9C, offset: 0x1D2, size: 0x8, addend: 0x0, symName: ___check_malloc, symObjAddr: 0x0, symBinAddr: 0x100003B64, symSize: 0x5C }
+  - { offsetInCU: 0x124, offset: 0x25A, size: 0x8, addend: 0x0, symName: ___check_calloc, symObjAddr: 0x5C, symBinAddr: 0x100003BC0, symSize: 0x84 }
+  - { offsetInCU: 0x1C0, offset: 0x2F6, size: 0x8, addend: 0x0, symName: ___check_free, symObjAddr: 0xE0, symBinAddr: 0x100003C44, symSize: 0x1C }
+  - { offsetInCU: 0x1EF, offset: 0x325, size: 0x8, addend: 0x0, symName: ___check_realloc, symObjAddr: 0xFC, symBinAddr: 0x100003C60, symSize: 0x98 }
+  - { offsetInCU: 0x28B, offset: 0x3C1, size: 0x8, addend: 0x0, symName: _check_memory_leaks, symObjAddr: 0x194, symBinAddr: 0x100003CF8, symSize: 0x28 }
+  - { offsetInCU: 0x2B3, offset: 0x3E9, size: 0x8, addend: 0x0, symName: _check_memory_leaks.cold.1, symObjAddr: 0x1BC, symBinAddr: 0x100003D28, symSize: 0xB0 }
+  - { offsetInCU: 0x2BD, offset: 0x3F3, size: 0x8, addend: 0x0, symName: _check_memory_leaks.cold.1, symObjAddr: 0x1BC, symBinAddr: 0x100003D28, symSize: 0xB0 }
+  - { offsetInCU: 0x2D4, offset: 0x40A, size: 0x8, addend: 0x0, symName: _OUTLINED_FUNCTION_0, symObjAddr: 0x26C, symBinAddr: 0x100003D20, symSize: 0x8 }
+...

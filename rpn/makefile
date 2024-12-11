@@ -3,6 +3,9 @@ CFLAGS	= -std=c11 -pedantic -Wall -Werror -g -O3 -funsigned-char
 OUT	= a.out
 FILE	= rpn
 
+run: compile
+	./a.out 
+
 execute: compile
 	./a.out < input > output
 	diff output correct

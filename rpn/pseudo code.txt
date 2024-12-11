@@ -1,0 +1,101 @@
+pseudo code
+
+int stack[10]; 
+
+c = getchar()
+while c != EOF
+    while c != EOL
+        if isdigit(c)
+            get_rest_of_digit
+            push_on_stack
+        if c == +
+            preform addition
+        if c == *
+            ...
+        getchar
+        
+
+what has to be done?
+
+read_rest_of_line();
+
+
+
+c = getchar()
+while c != EOF
+    while c != EOL
+        if (c == ' ')
+            goto: getchar
+            continue;
+        if isdigit(c)
+            get_rest_of_digit
+            push_on_stack
+            getchar()
+        else {
+            a = pop
+            b = pop
+            if c == +
+                preform addition
+            if c == *
+                ...
+            else(){
+                push b
+                push a
+                goto error
+            }
+        }
+        try push value.
+        label: eol
+            num = 0;
+            currently_building_int = 0;
+            stack_i = 0;
+            line++;
+            c = getchar();
+            continue
+        label error:
+            printf("line %d: error at %c %d\n", line, c, (int) c);
+            while (c != '\n') {
+                c = getchar();
+            }
+
+
+do {
+    do {
+        c = getchar();
+
+    } while (c != EOF)
+    c = getchar();
+} while (c != EOF)
+
+rpn.s: 448
+score: 974
+pos: 115
+
+rpn.s: 407
+score: 778
+pos: 52
+
+rpn.s: 343
+score: 693
+pos: 37
+
+rpn.s: 341
+score: 653
+pos: 27
+
+rpn.s: 318
+score: 613
+pos: 20
+
+rpn.s: 323
+score: 593
+pos: 16
+
+
+rpn.s: 325
+score: 577
+pos: 15
+
+rpn.s: 325
+score: 573
+pos: 15 (shared 13)
