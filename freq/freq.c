@@ -41,7 +41,7 @@ int remove_set(item* items, char* key) {
             items[i].key = items[len-1].key;
             len --;
             printf("trying to delete %s: deleted\n", key);
-            // free(items[i].key);
+            free(items[i].key);
             return 1;
         }
     }
@@ -65,7 +65,7 @@ void print_result(item* items) {
         }
     }
     if (largest_i != -1) {
-        printf("Result: %s %d\n", items[largest_i].key, items[largest_i].value);
+        printf("Result: %s %d\n", items[largest_i].key, largest);
     }
 }
 
@@ -132,7 +132,10 @@ int main(void) {
     }
     // print_items(items);
     print_result(items);
-    free(items);
+  for (int i = 0; i < len; i++) {
+        free(items[i].key);
+    }  
+  free(items);
     
     return 0;
 }
