@@ -65,7 +65,7 @@ void print_result(item* items) {
         }
     }
     if (largest_i != -1) {
-        printf("Result: %s %d\n", items[largest_i].key, largest);
+        printf("result: %s %d\n", items[largest_i].key, largest);
     }
 }
 
@@ -75,36 +75,21 @@ int IsPrime(unsigned int number) {
     for (i=2; i*i<=number; i++) {
         if (number % i == 0) return 0;
     }
-    // printf("%d is prime\n", number);
     return 1;
 }
 
 int main(void) {
     char word[1024];             // Buffer for reading each word
-    // char *words[1024];           // Array to store pointers to dynamically allocated words
-    // int word_index = 0;          // Counter for the number of words
     int c;                       // To handle character-by-character flushing of the input buffer
     int line = 1;
 
-    // printf("Enter text (Ctrl+D to quit):\n");
     item* items = calloc(sizeof(item), 400);
 
-    // add_set(items, "aaa");
-    // add_set(items, "bbb");
-    // print_items(items);
-    // remove_set(items, "bbb");
-    // count_set(items, "aaa");
-    // print_items(items);
-    // Read words in a loop
     while (scanf("%1023s", word) == 1) { // Read one word at a time
 
 
         if (IsPrime(line)){
-            // char* saved_word = calloc(sizeof(char), 1024);
-            // strcpy(saved_word, word);
             remove_set(items, word);
-            // free(saved_word);
-            // print_items(items);
         }
         else {
             if (search_set(items, word)) {
