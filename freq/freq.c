@@ -37,11 +37,11 @@ void add_set(item* items, char* key) {
 int remove_set(item* items, char* key) {
     for (int i=0; i<len; i++) {
         if (strcmp(items[i].key, key) == 0) {
+            free(items[i].key);
             items[i].value = items[len-1].value;
             items[i].key = items[len-1].key;
             len --;
             printf("trying to delete %s: deleted\n", key);
-            free(items[i].key);
             return 1;
         }
     }
