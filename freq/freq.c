@@ -41,6 +41,7 @@ int remove_set(item* items, char* key) {
             items[i].key = items[len-1].key;
             len --;
             printf("trying to delete %s: deleted\n", key);
+            // free(items[i].key);
             return 1;
         }
     }
@@ -78,15 +79,15 @@ int IsPrime(unsigned int number) {
     return 1;
 }
 
-int main() {
+int main(void) {
     char word[1024];             // Buffer for reading each word
-    char *words[1024];           // Array to store pointers to dynamically allocated words
-    int word_index = 0;          // Counter for the number of words
+    // char *words[1024];           // Array to store pointers to dynamically allocated words
+    // int word_index = 0;          // Counter for the number of words
     int c;                       // To handle character-by-character flushing of the input buffer
     int line = 1;
 
-    printf("Enter text (Ctrl+D to quit):\n");
-    item* items = calloc(sizeof(item), 40);
+    // printf("Enter text (Ctrl+D to quit):\n");
+    item* items = calloc(sizeof(item), 400);
 
     // add_set(items, "aaa");
     // add_set(items, "bbb");
@@ -99,19 +100,20 @@ int main() {
 
 
         if (IsPrime(line)){
-            char* saved_word = calloc(sizeof(char), 1024);
-            strcpy(saved_word, word);
-            remove_set(items, saved_word);
+            // char* saved_word = calloc(sizeof(char), 1024);
+            // strcpy(saved_word, word);
+            remove_set(items, word);
+            // free(saved_word);
             // print_items(items);
         }
         else {
             if (search_set(items, word)) {
-                char* saved_word = calloc(sizeof(char), 1024);
-                strcpy(saved_word, word);
-                count_set(items, saved_word);
-                printf("counted %s\n", saved_word);
+                // char* saved_word = calloc(sizeof(char), 1024);
+                // strcpy(saved_word, word);
+                count_set(items, word);
+                printf("counted %s\n", word);
                 // print_items(items);
-                free(saved_word);
+                // free(saved_word);
             }
             else {
                 char* saved_word = calloc(sizeof(char), 1024);
