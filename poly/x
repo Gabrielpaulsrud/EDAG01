@@ -1,0 +1,11 @@
+rm -f *.s *.o a.out output
+cc -include wecc.h -c poly.c -std=c11 -pedantic -Wall -Werror -g -O3 -funsigned-char
+cc -c malloc.c -std=c11 -pedantic -Wall -Werror -g -O3 -funsigned-char 
+cc -std=c11 -pedantic -Wall -Werror -g -O3 -funsigned-char   -c -o main.o main.c
+gcc -g -O0 -fsanitize=address -o a.out poly.o malloc.o main.o 
+./a.out
+Begin polynomial test of (-656x^764 - 847x^732 + 422x^709 + 541x^649 - 934x^569 + 478x^516 + 679x^492 + 797x^425 + 568x^348 + 353x^291 - 469x^206 + 552x^112 + 326x^89 - 737x^42 + 316) * (386x^69 + 417)
+- 656x^764 - 847x^732 + 422x^709 + 541x^649 - 934x^569 + 478x^516 + 679x^492 + 797x^425 + 568x^348 + 353x^291 - 469x^206 + 552x^112 + 326x^89 - 737x^42 + 316
+386x^69 + 417
+
+End polynomial test of (-656x^764 - 847x^732 + 422x^709 + 541x^649 - 934x^569 + 478x^516 + 679x^492 + 797x^425 + 568x^348 + 353x^291 - 469x^206 + 552x^112 + 326x^89 - 737x^42 + 316) * (386x^69 + 417)
