@@ -42,6 +42,9 @@ void add_poly(poly_t* poly, poly_part_t* poly_part) {
             return;
         }
     }
+    poly->polys[poly->len] = *poly_part;
+    poly->len++;
+    return;
    
 }
 
