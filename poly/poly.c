@@ -13,13 +13,34 @@ struct poly_part_t {
 
 typedef struct poly_part_t poly_part_t;
 
-
 struct poly_t {
     int len;
     poly_part_t* polys;
 };
 
 typedef struct poly_t poly_t;
+
+// int search_set(poly_part_t* polys, int len, int exp) {
+//     for (int i=0; i<len; i++) {
+//         if (polys[i].exp == exp) {
+//             return 1;
+//         }
+//     }
+//     return 0;
+// }
+
+void add_poly(poly_t* poly, poly_part_t* poly_part) {
+    for (int i=0; i<poly->len; i++) {
+        if (poly->polys[i].exp == poly_part->exp) {
+            poly->polys[i].c += poly_part->c;
+            return;
+        }
+    }
+    poly->polys[poly->len] = *poly_part;
+    poly->len++;
+    return;
+}
+
 
 poly_t* new_poly_from_string(const char* string) {
     poly_part_t* polys = malloc(sizeof(poly_part_t)*10);
@@ -65,9 +86,9 @@ poly_t* new_poly_from_string(const char* string) {
                 exp = 0;
                 i++;
                 while ((a = string[i]) != ' ') {  
-                    printf("char: %c\n", a);
+                    // printf("char: %c\n", a);
                     exp = exp * 10 + (a - '0');
-                    printf("exp: %d\n", exp);       
+                    // printf("exp: %d\n", exp);       
                     i++;
                 }
             }
@@ -136,15 +157,21 @@ poly_t*	mul(poly_t* p, poly_t*q) {
     free all partsums
     return r
     */
-    poly_t partsums[p->len];
-    for (int i = 0; i<p->len; i++){
-        poly_part_t part_polys[q->len];
-        for (int j = 0; j<q->len; j++) {
-            partsums[i].polys[i]
+    poly_t* r = malloc(sizeof(poly_t));
+    r->len = 0;
+    poly_part_t* polys = malloc(sizeof(poly_part_t)*p->len*q->len);
+    r->polys = polys;
+    for (int i = 0; i < p->len; i++) {
+        for (int j = 0; j < q->len; j++) {
+            poly_part_t part_sum;
+            part_sum.c = p->polys[i].c * q->polys[j].c;
+            part_sum.exp = p->polys[i].exp + q->polys[j].exp;
+            add_poly(r, &part_sum);
         }
     }
+    return r;
 
-    return add(p, q);
+
     // poly_part_t* polys = malloc(sizeof(poly_part_t)*10);
     // poly_t* r = malloc(sizeof(poly_t));
     // r->len = p->len + q->len;
@@ -160,7 +187,7 @@ void print_poly(poly_t* p) {
         if (p->polys[i].c < 0) {
             printf("- ");
         }
-        else if (p->polys[i].c > 1 && i > 0)
+        else if (p->polys[i].c >= 1 && i > 0)
         {
             printf("+ ");
         }
