@@ -22,3 +22,7 @@ clean:
 test: clean $(FILE).o malloc.o main.o
 	gcc -g -O0 -fsanitize=address -o $(OUT) $(FILE).o malloc.o main.o 
 	./a.out
+
+mem: clean $(FILE).o malloc.o main.o
+	gcc -g -O0 -o $(OUT) $(FILE).o malloc.o main.o
+
