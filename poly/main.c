@@ -66,6 +66,7 @@ static void poly_test(const char* a, const char* b)
 
 int main(void)
 {
+	// poly_test("x^2 - 7x + 1", "3x + 2");
 	poly_test("-656x^764 - 847x^732 + 422x^709 + 541x^649 - 934x^569 + 478x^516 + 679x^492 + 797x^425 + 568x^348 + 353x^291 - 469x^206 + 552x^112 + 326x^89 - 737x^42 + 316", "386x^69 + 417");
 	// poly_test("x^2 - 7x + 1", "3x + 2");
 	// putchar('\n');

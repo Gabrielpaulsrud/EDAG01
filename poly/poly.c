@@ -22,17 +22,21 @@ struct poly_t {
 typedef struct poly_t poly_t;
 
 void add_poly(poly_t* poly, poly_part_t* poly_part) {
+    // printf("poly len: %d", poly->len);
     for (int i=0; i<poly->len; i++) {
+        // printf("i = %d", i);
         if (poly->polys[i].exp == poly_part->exp) {
+            // printf("found\n");
             poly->polys[i].c += poly_part->c;
             return;
         }
     }
-    for (int i=0; i<poly->len; i++){
+    for (int i=0; i<=poly->len; i++){
         if (poly_part->exp > poly->polys[i].exp) {
             for (int j=poly->len-1; j>=i; j--){
                 poly->polys[j+1] = poly->polys[j];
             }
+            // printf("shuffle done\n");
             poly->polys[i] = *poly_part;
             poly->len++;
             return;
@@ -159,9 +163,9 @@ poly_t*	mul(poly_t* p, poly_t*q) {
     poly_part_t* polys = malloc(sizeof(poly_part_t)*r->alloc_len);
     r->polys = polys;
     for (int i = 0; i < p->len; i++) {
-        printf("i = %d", i);
+        // printf("i = %d", i);
         for (int j = 0; j < q->len; j++) {
-            printf("j = %d", j);
+            // printf("j = %d", j);
             poly_part_t part_sum;
             part_sum.c = p->polys[i].c * q->polys[j].c;
             part_sum.exp = p->polys[i].exp + q->polys[j].exp;
