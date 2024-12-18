@@ -15,19 +15,11 @@ typedef struct poly_part_t poly_part_t;
 
 struct poly_t {
     int len;
+    int alloc_len;
     poly_part_t* polys;
 };
 
 typedef struct poly_t poly_t;
-
-// int search_set(poly_part_t* polys, int len, int exp) {
-//     for (int i=0; i<len; i++) {
-//         if (polys[i].exp == exp) {
-//             return 1;
-//         }
-//     }
-//     return 0;
-// }
 
 void add_poly(poly_t* poly, poly_part_t* poly_part) {
     for (int i=0; i<poly->len; i++) {
@@ -43,9 +35,10 @@ void add_poly(poly_t* poly, poly_part_t* poly_part) {
 
 
 poly_t* new_poly_from_string(const char* string) {
-    poly_part_t* polys = malloc(sizeof(poly_part_t)*10);
     poly_t* p = malloc(sizeof(poly_t));
-    p->len = 10;
+    p->len = 0;
+    p->alloc_len = 1;
+    poly_part_t* polys = malloc(sizeof(poly_part_t)*p->alloc_len);
     p->polys = polys;
     
     int c = 0;
@@ -53,12 +46,15 @@ poly_t* new_poly_from_string(const char* string) {
     int i = 0;
     int ppi = 0;
     int multiplier;
-    int real_length = 0;
     
     int exp = 0;
     a = string[i];
     while(a!='\0') {
-        real_length += 1;
+        p->len += 1;
+        if (p->len >= p->alloc_len) {
+            p->alloc_len = p->alloc_len * 2;
+            p->polys = realloc(p->polys, sizeof(poly_part_t)*p->alloc_len);
+        }
         multiplier = 1;
         exp = 0;
         c = 0;
@@ -96,11 +92,10 @@ poly_t* new_poly_from_string(const char* string) {
         if (c == 0 && exp > 0){
             c = 1;
         }
-        polys[ppi].c = multiplier*c;
-        polys[ppi].exp = exp;
+        p->polys[ppi].c = multiplier*c;
+        p->polys[ppi].exp = exp;
         ppi++;
     }
-    p->len = real_length;
     return p;
 }
 
@@ -109,7 +104,7 @@ void free_poly(poly_t* p) {
     free(p);
 }
 
-poly_t* add(poly_t* p, poly_t*q) {
+poly_t* __add(poly_t* p, poly_t*q) {
     poly_part_t* r_polys = malloc(sizeof(poly_part_t)*10);
     poly_t* r = malloc(sizeof(poly_t));
     r->len = p->len + q->len;
@@ -145,21 +140,10 @@ poly_t* add(poly_t* p, poly_t*q) {
 }
 
 poly_t*	mul(poly_t* p, poly_t*q) {
-    /*
-    for i in p.len
-        partsum = p->polys[i]
-        for j in q.len
-            partsum[j].c += q->polys[j];
-            partsum[j].exp += q->polys[j].exp;
-
-
-    add all partsums.
-    free all partsums
-    return r
-    */
     poly_t* r = malloc(sizeof(poly_t));
     r->len = 0;
-    poly_part_t* polys = malloc(sizeof(poly_part_t)*p->len*q->len);
+    r->alloc_len = p->len*q->len;
+    poly_part_t* polys = malloc(sizeof(poly_part_t)*r->alloc_len);
     r->polys = polys;
     for (int i = 0; i < p->len; i++) {
         for (int j = 0; j < q->len; j++) {
