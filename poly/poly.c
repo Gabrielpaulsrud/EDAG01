@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
+
 
 #include "error.h"
 #include "poly.h"
@@ -146,10 +148,10 @@ poly_t*	mul(poly_t* p, poly_t*q) {
 }
 
 void print_poly(poly_t* p) {
-    // char buf[30];
-    // int buf_i = 0;
+    char buf[1000];
+    int buf_i = 0;
     for (int i = 0; i < p->len; i++) {
-        // buf_i = 0;
+        buf_i = 0;
         int c = p->polys[i].c;
         int exp = p->polys[i].exp;
         int abs_c = abs_int(c);
@@ -158,25 +160,45 @@ void print_poly(poly_t* p) {
             continue;
         }
         if (i > 0) {
-            printf(" ");
+            // printf(" ");
+            buf[buf_i] = ' ';
+            buf_i++;
         }
         if (c < 0) {
-            printf("- ");
+            // printf("- ");
+            buf[buf_i] = '-';
+            buf_i++;
+            buf[buf_i] = ' ';
+            buf_i++;
         }
         else if (i > 0) {
-            printf("+ ");
+            // printf("+ ");
+            buf[buf_i] = '+';
+            buf_i++;
+            buf[buf_i] = ' ';
+            buf_i++;
         }
-
         if (abs_c > 1 || exp == 0) {
-            printf("%d", abs_c);
+            // printf("%d", abs_c);
+            int t = snprintf(&buf[buf_i], 10, "%d", abs_c);
+            buf_i += t;
         }
         if (exp >= 1){
-            printf("x");
+            buf[buf_i] = 'x';
+            buf_i+=1;
+            // printf("x");
         }
         if (exp > 1)
         {
-            printf("^%d", p->polys[i].exp);
+            // printf("^%d", p->polys[i].exp);
+            buf[buf_i] = '^';
+            buf_i+=1;
+            int t = snprintf(&buf[buf_i], 10, "%d", exp);
+            buf_i += t;
         }        
+        buf[buf_i]='\0';
+        printf("%s", &buf[0]);
     }
+    // buf[buf_i]='\0';
     printf("\n");
 }
