@@ -28,34 +28,20 @@ static inline int abs_int(int x) {
 }
 
 void add_poly(poly_t* poly, poly_part_t* poly_part) {
-    int i = 0;
-    // int j;
-    // for (int i=0; i<poly->len; i++) {
-    outer:
+    for (int i=0; i<poly->len; i++) {
         if (poly->polys[i].exp == poly_part->exp) {
             poly->polys[i].c += poly_part->c;
             return;
         }
         else if (poly_part->exp > poly->polys[i].exp) {
-            // for (int j=poly->len-1; j>=i; j--){
-            int j=poly->len-1;
-            inner:
+            for (int j=poly->len-1; j>=i; j--){
                 poly->polys[j+1] = poly->polys[j];
-                j--;
-                if (j>=i) {
-                    goto inner;
-                }
-            // }
+            }
             poly->polys[i] = *poly_part;
             poly->len++;
             return;
         }
-    // evaluate_outer:
-    i++;
-    if (i<poly->len) {
-        goto outer;
     }
-    // }
     poly->polys[poly->len] = *poly_part;
     poly->len++;
     return;
@@ -137,14 +123,16 @@ poly_t* new_poly_from_string(const char* string) {
 }
 
 void free_poly(poly_t* p) {
-    free(p->polys);
+    // free(p->polys);
     free(p);
 }
 
 poly_t*	mul(poly_t* p, poly_t*q) {
-    poly_t* r = malloc(sizeof(poly_t));
+    // poly_t* r = malloc(sizeof(poly_t));
+    poly_t* r = malloc(sizeof(poly_t) + sizeof(poly_part_t) * p->len * q->len);
     r->len = 0;
-    poly_part_t* polys = malloc(sizeof(poly_part_t)*p->len*q->len);
+    poly_part_t* polys = (poly_part_t*)(r + 1); // r + 1 advances by sizeof(poly_t)
+    // poly_part_t* polys = malloc(sizeof(poly_part_t)*p->len*q->len);
     r->polys = polys;
     for (int i = 0; i < p->len; i++) {
         for (int j = 0; j < q->len; j++) {
@@ -158,42 +146,32 @@ poly_t*	mul(poly_t* p, poly_t*q) {
 }
 
 void print_poly(poly_t* p) {
-    // for (int i = 0; i < p->len; i++) {
-    int i = 0;
-    int c;
-    int exp;
-    int abs_c;
-    start:
-    c = p->polys[i].c;
-    exp = p->polys[i].exp;
-    abs_c = abs_int(c);
-    if (c == 0){
-        goto evaluate;
+    for (int i = 0; i < p->len; i++) {
+        int c = p->polys[i].c;
+        int exp = p->polys[i].exp;
+        int abs_c = abs_int(c);
+        if (c == 0){
+            continue;
+        }
+        if (i > 0) {
+            printf(" ");
+        }
+        if (c < 0) {
+            printf("- ");
+        }
+        else if (i > 0) {
+            printf("+ ");
+        }
+        if (abs_c > 1 || exp == 0) {
+            printf("%d", abs_c);
+        }
+        if (exp >= 1){
+            printf("x");
+        }
+        if (exp > 1)
+        {
+            printf("^%d", exp);
+        }
     }
-    if (i > 0) {
-        printf(" ");
-    }
-    if (c < 0) {
-        printf("- ");
-    }
-    else if (i > 0) {
-        printf("+ ");
-    }
-    if (abs_c > 1 || exp == 0) {
-        printf("%d", abs_c);
-    }
-    if (exp >= 1){
-        printf("x");
-    }
-    if (exp > 1)
-    {
-        printf("^%d", exp);
-    }
-    evaluate:
-    i++;
-    if (i < p->len) {
-        goto start;
-    }
-    // }
     printf("\n");
 }
