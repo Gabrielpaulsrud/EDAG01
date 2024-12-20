@@ -96,6 +96,6 @@ int main(void)
 	poly_test("x^3 + x^2 + x + 1", "x - 1");
 	putchar('\n');
 
-	// poly_test("3x", "1");
+	// poly_test("x^3 + x + 1", "x^10 - 1");
 	return 0;
 }

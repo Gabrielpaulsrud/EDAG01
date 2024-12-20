@@ -28,50 +28,60 @@ static inline int abs_int(int x) {
 }
 
 void add_poly(poly_t* poly, poly_part_t* poly_part) {
-    for (int i=0; i<poly->len; i++) {
+    int i = 0;
+    // int j;
+    // for (int i=0; i<poly->len; i++) {
+    outer:
         if (poly->polys[i].exp == poly_part->exp) {
             poly->polys[i].c += poly_part->c;
             return;
         }
-    }
-    for (int i=0; i<=poly->len; i++){
-        if (poly_part->exp > poly->polys[i].exp) {
-            for (int j=poly->len-1; j>=i; j--){
+        else if (poly_part->exp > poly->polys[i].exp) {
+            // for (int j=poly->len-1; j>=i; j--){
+            int j=poly->len-1;
+            inner:
                 poly->polys[j+1] = poly->polys[j];
-            }
+                j--;
+                if (j>=i) {
+                    goto inner;
+                }
+            // }
             poly->polys[i] = *poly_part;
             poly->len++;
             return;
         }
+    // evaluate_outer:
+    i++;
+    if (i<poly->len) {
+        goto outer;
     }
+    // }
     poly->polys[poly->len] = *poly_part;
     poly->len++;
     return;
-   
 }
 
 
 poly_t* new_poly_from_string(const char* string) {
-    int j = 0;
+    int i = 0;
     char a;
-    int new_half_len = 2;
+    int double_len = 2;
     do {
-        a = string[j];
+        a = string[i];
         if (a == ' '){
-            new_half_len+=1;
+            double_len+=1;
         }
-        j++;
+        i++;
     } while(a!='\0');
-    int new_len = new_half_len/2;
 
 
     poly_t* p = malloc(sizeof(poly_t));
     p->len = 0;
-    poly_part_t* polys = malloc(sizeof(poly_part_t)*new_len);
+    poly_part_t* polys = malloc(sizeof(poly_part_t)*double_len/2);
     p->polys = polys;
     
     int c = 0;
-    int i = 0;
+    i = 0;
     int ppi = 0;
     int multiplier;
     
@@ -148,63 +158,42 @@ poly_t*	mul(poly_t* p, poly_t*q) {
 }
 
 void print_poly(poly_t* p) {
-    char buf[100];
-    int buf_i = 0;
-    for (int i = 0; i < p->len; i++) {
-        buf_i = 0;
-        int c = p->polys[i].c;
-        int exp = p->polys[i].exp;
-        int abs_c = abs_int(c);
-        // printf("\n\nactual %dx^%d\n", c, exp);
-        if (c == 0){
-            continue;
-        }
-        if (i > 0) {
-            printf(" ");
-            // buf[buf_i] = ' ';
-            // buf_i++;
-        }
-        if (c < 0) {
-            // printf("- ");
-            buf[buf_i] = '-';
-            buf_i++;
-            buf[buf_i] = ' ';
-            buf_i++;
-        }
-        else if (i > 0) {
-            // printf("+ ");
-            buf[buf_i] = '+';
-            buf_i++;
-            buf[buf_i] = ' ';
-            buf_i++;
-        }
-        buf[buf_i]='\0';
-        printf("%s", &buf[0]);
-        if (abs_c > 1 || exp == 0) {
-            printf("%d", abs_c);
-            // int t = snprintf(&buf[buf_i], 10, "%d", abs_c);
-            // buf_i += t;
-        }
-        if (exp >= 1){
-            // buf[buf_i] = 'x';
-            // buf_i+=1;
-            printf("x");
-        }
-        if (exp > 1)
-        {
-            printf("^%d", p->polys[i].exp);
-            // buf[buf_i] = '^';
-            // buf_i+=1;
-            // int t = snprintf(&buf[buf_i], 10, "%d", exp);
-            // buf_i += t;
-        }
-        // if (i==(p->len)){
-        //     buf[buf_i] = '\n';
-        //     buf_i++;
-        // }
-        // buf[buf_i]='\0';
-        // printf("%s", &buf[0]);
+    // for (int i = 0; i < p->len; i++) {
+    int i = 0;
+    int c;
+    int exp;
+    int abs_c;
+    start:
+    c = p->polys[i].c;
+    exp = p->polys[i].exp;
+    abs_c = abs_int(c);
+    if (c == 0){
+        goto evaluate;
     }
-    // buf[buf_i]='\0';
+    if (i > 0) {
+        printf(" ");
+    }
+    if (c < 0) {
+        printf("- ");
+    }
+    else if (i > 0) {
+        printf("+ ");
+    }
+    if (abs_c > 1 || exp == 0) {
+        printf("%d", abs_c);
+    }
+    if (exp >= 1){
+        printf("x");
+    }
+    if (exp > 1)
+    {
+        printf("^%d", exp);
+    }
+    evaluate:
+    i++;
+    if (i < p->len) {
+        goto start;
+    }
+    // }
     printf("\n");
 }
