@@ -3,78 +3,37 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdint.h>
+
 
 
 #include "error.h"
 #include "poly.h"
 
-struct poly_part_t {
-    int c;
-    int exp;
-};
-
-typedef struct poly_part_t poly_part_t;
-
-struct poly_t {
-    int len;
-    poly_part_t* polys;
+struct poly_t{
+    int32_t len;       // Number of elements in the array
+    int32_t* polys;   // Flexible array member
 };
 
 typedef struct poly_t poly_t;
 
-static inline int abs_int(int x) {
-    int mask = x >> (sizeof(int) * 8 - 1);  // Create a mask of all 1s if x < 0, else all 0s
+static inline int32_t abs_int(int32_t x) {
+    int32_t mask = x >> (sizeof(int32_t) * 8 - 1);  // Create a mask of all 1s if x < 0, else all 0s
     return (x + mask) ^ mask;
 }
 
-void add_poly(poly_t* poly, poly_part_t* poly_part) {
-    for (int i=0; i<poly->len; i++) {
-        if (poly->polys[i].exp == poly_part->exp) {
-            poly->polys[i].c += poly_part->c;
-            return;
-        }
-        else if (poly_part->exp > poly->polys[i].exp) {
-            for (int j=poly->len-1; j>=i; j--){
-                poly->polys[j+1] = poly->polys[j];
-            }
-            poly->polys[i] = *poly_part;
-            poly->len++;
-            return;
-        }
-    }
-    poly->polys[poly->len] = *poly_part;
-    poly->len++;
-    return;
-}
-
-
 poly_t* new_poly_from_string(const char* string) {
-    int i = 0;
+    uint16_t i = 0;
     char a;
-    int double_len = 2;
-    do {
-        a = string[i];
-        if (a == ' '){
-            double_len+=1;
-        }
-        i++;
-    } while(a!='\0');
-
-
-    poly_t* p = malloc(sizeof(poly_t));
-    p->len = 0;
-    poly_part_t* polys = malloc(sizeof(poly_part_t)*double_len/2);
-    p->polys = polys;
+    int32_t poly_len = -1;
+    poly_t* p;
     
-    int c = 0;
-    i = 0;
-    int ppi = 0;
-    int multiplier;
+    int32_t c = 0;
+    int8_t multiplier;
     
-    int exp = 0;
+    int32_t exp = 0;
     a = string[i];
     while(a!='\0') {
-        p->len += 1;
         multiplier = 1;
         exp = 0;
         c = 0;
@@ -115,62 +74,77 @@ poly_t* new_poly_from_string(const char* string) {
         if (c == 0 && exp > 0){
             c = 1;
         }
-        p->polys[ppi].c = multiplier*c;
-        p->polys[ppi].exp = exp;
-        ppi++;
+        if(poly_len == -1){
+            poly_len = exp+1;
+            // p = malloc(sizeof(poly_t));
+            size_t total_size = sizeof(poly_t) + poly_len * sizeof(int32_t);
+            p = malloc(total_size);
+            memset(p, 0, total_size);
+            p->polys = (int32_t*)((char*)p + sizeof(poly_t));
+
+            p->len = poly_len;
+            // p->polys = p + sizeof(poly_t);
+            
+            // p->polys = calloc(poly_len, sizeof(int32_t));
+        }
+        // printf("constructing: %dx^%d\n", c, exp);
+        p->polys[exp] = multiplier*c;
+        // printf("poly[0] = %d\n", p->polys[0]);
+        // printf("poly[1] = %d\n", p->polys[1]);
+        // printf("poly[2] = %d\n", p->polys[2]);
+        // printf("poly[3] = %d\n", p->polys[3]);
     }
     return p;
 }
 
 void free_poly(poly_t* p) {
-    // free(p->polys);
+    free(p->polys);
     free(p);
 }
 
 poly_t*	mul(poly_t* p, poly_t*q) {
-    // poly_t* r = malloc(sizeof(poly_t));
-    poly_t* r = malloc(sizeof(poly_t) + sizeof(poly_part_t) * p->len * q->len);
-    r->len = 0;
-    poly_part_t* polys = (poly_part_t*)(r + 1); // r + 1 advances by sizeof(poly_t)
-    // poly_part_t* polys = malloc(sizeof(poly_part_t)*p->len*q->len);
-    r->polys = polys;
-    for (int i = 0; i < p->len; i++) {
-        for (int j = 0; j < q->len; j++) {
-            poly_part_t part_sum;
-            part_sum.c = p->polys[i].c * q->polys[j].c;
-            part_sum.exp = p->polys[i].exp + q->polys[j].exp;
-            add_poly(r, &part_sum);
+    poly_t* r = malloc(sizeof(poly_t));
+    r->len = p->len+q->len-1;
+    r->polys = calloc(r->len, sizeof(int));
+    for (uint32_t i = 0; i < p->len; i++) {
+        for (uint32_t j = 0; j < q->len; j++) {
+            r->polys[i+j] += p->polys[i] * q->polys[j];;
         }
     }
     return r;
 }
 
 void print_poly(poly_t* p) {
-    for (int i = 0; i < p->len; i++) {
-        int c = p->polys[i].c;
-        int exp = p->polys[i].exp;
-        int abs_c = abs_int(c);
+    // printf("printing\n");
+    // printf("poly[0] = %d\n", p->polys[0]);
+    // printf("poly[1] = %d\n", p->polys[1]);
+    // printf("poly[2] = %d\n", p->polys[2]);
+    // printf("poly[3] = %d\n", p->polys[3]);
+    for (int32_t i = p->len-1; i >= 0; i--) {
+        int32_t c = p->polys[i];
+        int32_t abs_c = abs_int(c);
+        // printf("actual = %dx^%d\n", c, exp);
         if (c == 0){
             continue;
         }
-        if (i > 0) {
+        if (i < p->len-1) {
             printf(" ");
         }
         if (c < 0) {
             printf("- ");
         }
-        else if (i > 0) {
+        else if (i < p->len-1) {
             printf("+ ");
         }
-        if (abs_c > 1 || exp == 0) {
+        if (abs_c > 1 || i == 0) {
             printf("%d", abs_c);
         }
-        if (exp >= 1){
+        if (i >= 1){
             printf("x");
         }
-        if (exp > 1)
+        if (i > 1)
         {
-            printf("^%d", exp);
+            printf("^%d", i);
         }
     }
     printf("\n");
