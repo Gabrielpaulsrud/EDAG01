@@ -1,125 +1,112 @@
-#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
+#include <ctype.h>
 
 
-#include "error.h"
-#include "poly.h"
+// poly_t* new_poly_from_string(const char* string) {
 
-struct poly_part_t {
-    int c;
-    int exp;
-};
+//     int c;
+//     int exp;
+//     int result;
+//     char x;
+//     char hat;
 
-typedef struct poly_part_t poly_part_t;
+//     int multiplier;
+//     char* copy = strdup(string);
+//     int poly_len = -1;
+//     poly_t* p = NULL;
+    
+//     char* token;
+//     int normal = 0;
+//     token = strtok(copy, " ");
+//     while( token != NULL ) {
+//         if (token[0] == '-') {
+//             multiplier = -1;
+//         }
+//         else {
+//             multiplier = 1;
+//         }
+//         if (normal){
+//             token = strtok(NULL, " ");
+//         }
+//         else {
+//             normal = 1;
+//         }
+//         exp = 0;
+//         c = 1;
+//         result = sscanf(token, "%d%c%c%d", &c, &x, &hat, &exp);
+//         if (result == 2) {
+//             exp = 1;
+//         }
+//         else if (result == 0) {
+//             result = sscanf(token, "%c%c%d", &x, &hat, &exp);
+//             if (result == 1) {
+//                 exp = 1;
+//             }
+//         }
+//         // printf("%dx^%d\n", multiplier*c, exp);
+//         if(poly_len == -1){
+//             poly_len = exp+1;
+//             size_t total_size = sizeof(poly_t) + poly_len * sizeof(int32_t);
+//             p = calloc(1, total_size);
+//             p->polys = (int32_t*)((char*)p + sizeof(poly_t));
 
-struct poly_t {
-    int len;
-    poly_part_t* polys;
-};
+//             p->len = poly_len;
+//         }
+//         // printf("constructing: %dx^%d\n", c, exp);
+//         p->polys[exp] = multiplier*c;
+//         token = strtok(NULL, " ");
+//     }
+//     return p;
+// }
 
-typedef struct poly_t poly_t;
 
-static inline int abs_int(int x) {
-    int mask = x >> (sizeof(int) * 8 - 1);  // Create a mask of all 1s if x < 0, else all 0s
-    return (x + mask) ^ mask;
+int count_until_whitespace(const char* str) {
+    const char* start = str;
+    while (*str && *str != ' ') {
+        str++;
+    }
+    return str - start; // Difference gives the count
 }
 
-void add_poly(poly_t* poly, poly_part_t* poly_part) {
-    int found_i = -1;
-    poly_part_t tmp;
-    poly_part_t insert_tmp;
-    for (int i=0; i<poly->len; i++) {
-        if (poly->polys[i].exp == poly_part->exp) {
-            poly->polys[i].c += poly_part->c;
-            return;
-        }
-        else if (poly_part->exp > poly->polys[i].exp) {
-            if (found_i==-1){
-                found_i = i;
-                printf("found_i: %d", found_i);
-                insert_tmp = poly->polys[i];
-            }
-            tmp = poly->polys[i+1];
-            poly->polys[i+1] = insert_tmp;
-            insert_tmp = tmp;
-            // for (int j=poly->len-1; j>=i; j--){
-            //     poly->polys[j+1] = poly->polys[j];
-            // }
-        }
+int main(){
+  
+    const char* input = "-1234x^5678 + 333x^888 - 2x + 5 - x^10 + x";
+    const char *a = &input[0];
+    // while(a!='\0') {
+    if (a == input) {
+        printf("is equal");
     }
-    if (found_i!=-1) {
-        poly->polys[found_i] = *poly_part;
-        poly->len++;
-        return;
-    }
-    poly->polys[poly->len] = *poly_part;
-    poly->len++;
-    return;
-}
+    printf("hej");
+    printf("%c", *a);
+    a++;
+    printf("%c", *a);
+    a++;
+    printf("%c", *a);
+    a++;
+    printf("%c", *a);
 
-void print_poly(poly_t* p) {
-    for (int i = 0; i < p->len; i++) {
-        int c = p->polys[i].c;
-        int exp = p->polys[i].exp;
-        int abs_c = abs_int(c);
-        if (c == 0){
-            continue;
+    if (*a == ' ') {
+        a ++;
+    }
+    // a = string[i];
+    if (*a == '-') {
+        // multiplier = -1;
+        if (a == input){
+            a++;
+            printf("%c", *a);
         }
-        if (i > 0) {
-            printf(" ");
+        else {
+            a+=2;
+            printf("%c", *a);
+            
         }
-        if (c < 0) {
-            printf("- ");
-        }
-        else if (i > 0) {
-            printf("+ ");
-        }
-        if (abs_c > 1 || exp == 0) {
-            printf("%d", abs_c);
-        }
-        if (exp >= 1){
-            printf("x");
-        }
-        if (exp > 1)
-        {
-            printf("^%d", exp);
-        }
+    }
+    else if (*a == '+') {
+        a+=2;
     }
     printf("\n");
-}
-
-int main (){
-    poly_part_t polys[5]; 
-    poly_t poly;
-    poly.len = 3;
-    poly.polys = polys;
-    poly_part_t a;
-    a.c = 1;
-    a.exp = 10;
-    polys[0] = a;
-    
-    poly_part_t b;
-    b.c = 1;
-    b.exp = 2;
-    polys[1] = b;
-
-
-    poly_part_t c;
-    c.c = 1;
-    c.exp = 0;
-    polys[2] = c;
-
-    
-    print_poly(&poly);
-
-    poly_part_t d;
-    d.c = 1;
-    d.exp = 9;
-
-    add_poly(&poly, &d);
-    print_poly(&poly);
     return 0;
 }
+
+// #includ

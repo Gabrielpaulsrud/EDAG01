@@ -3,249 +3,208 @@ a.out:	file format mach-o arm64
 
 Disassembly of section __TEXT,__text:
 
-0000000100002fa0 <_new_poly_from_string>:
-100002fa0: a9ba6ffc    	stp	x28, x27, [sp, #-96]!
-100002fa4: a90167fa    	stp	x26, x25, [sp, #16]
-100002fa8: a9025ff8    	stp	x24, x23, [sp, #32]
-100002fac: a90357f6    	stp	x22, x21, [sp, #48]
-100002fb0: a9044ff4    	stp	x20, x19, [sp, #64]
-100002fb4: a9057bfd    	stp	x29, x30, [sp, #80]
-100002fb8: 910143fd    	add	x29, sp, #80
-100002fbc: aa0003f3    	mov	x19, x0
-100002fc0: 52800200    	mov	w0, #16
-100002fc4: 940000ec    	bl	0x100003374 <___check_malloc>
-100002fc8: aa0003f4    	mov	x20, x0
-100002fcc: 5280001a    	mov	w26, #0
-100002fd0: 3940027b    	ldrb	w27, [x19]
-100002fd4: 1280000d    	mov	w13, #-1
-100002fd8: 52800036    	mov	w22, #1
-100002fdc: 52800157    	mov	w23, #10
-100002fe0: 12800018    	mov	w24, #-1
-100002fe4: 1400000a    	b	0x10000300c <_new_poly_from_string+0x6c>
-100002fe8: 11000798    	add	w24, w28, #1
-100002fec: b9000298    	str	w24, [x20]
-100002ff0: 93407f00    	sxtw	x0, w24
-100002ff4: 52800081    	mov	w1, #4
-100002ff8: 940000f6    	bl	0x1000033d0 <___check_calloc>
-100002ffc: 1280000d    	mov	w13, #-1
-100003000: f9000680    	str	x0, [x20, #8]
-100003004: 1b197ea8    	mul	w8, w21, w25
-100003008: b83cd808    	str	w8, [x0, w28, sxtw #2]
-10000300c: 7100837f    	cmp	w27, #32
-100003010: 54000060    	b.eq	0x10000301c <_new_poly_from_string+0x7c>
-100003014: 3500007b    	cbnz	w27, 0x100003020 <_new_poly_from_string+0x80>
-100003018: 1400004b    	b	0x100003144 <_new_poly_from_string+0x1a4>
-10000301c: 1100075a    	add	w26, w26, #1
-100003020: 52800008    	mov	w8, #0
-100003024: aa1a03e9    	mov	x9, x26
-100003028: 92403f49    	and	x9, x26, #0xffff
-10000302c: 38696a69    	ldrb	w9, [x19, x9]
-100003030: 11000b4a    	add	w10, w26, #2
-100003034: 72003f5f    	tst	w26, #0xffff
-100003038: 1a9f154b    	csinc	w11, w10, wzr, ne
-10000303c: 7100b53f    	cmp	w9, #45
-100003040: 1a8b134b    	csel	w11, w26, w11, ne
-100003044: 1a8d12cc    	csel	w12, w22, w13, ne
-100003048: 7100ad3f    	cmp	w9, #43
-10000304c: 1a8b015a    	csel	w26, w10, w11, eq
-100003050: 1a8c02d9    	csel	w25, w22, w12, eq
-100003054: 92403f49    	and	x9, x26, #0xffff
-100003058: 38696a7b    	ldrb	w27, [x19, x9]
-10000305c: 3400013b    	cbz	w27, 0x100003080 <_new_poly_from_string+0xe0>
-100003060: 7101e37f    	cmp	w27, #120
-100003064: 540001c0    	b.eq	0x10000309c <_new_poly_from_string+0xfc>
-100003068: 1b176d08    	madd	w8, w8, w23, w27
-10000306c: 5100c108    	sub	w8, w8, #48
-100003070: 1100075a    	add	w26, w26, #1
-100003074: 92403f49    	and	x9, x26, #0xffff
-100003078: 38696a7b    	ldrb	w27, [x19, x9]
-10000307c: 35ffff3b    	cbnz	w27, 0x100003060 <_new_poly_from_string+0xc0>
-100003080: 5280001c    	mov	w28, #0
-100003084: 7100039f    	cmp	w28, #0
-100003088: 7a40c900    	ccmp	w8, #0, #0, gt
-10000308c: 1a9f1515    	csinc	w21, w8, wzr, ne
-100003090: 3100071f    	cmn	w24, #1
-100003094: 54000541    	b.ne	0x10000313c <_new_poly_from_string+0x19c>
-100003098: 17ffffd4    	b	0x100002fe8 <_new_poly_from_string+0x48>
-10000309c: 11000749    	add	w9, w26, #1
-1000030a0: 92403d2a    	and	x10, x9, #0xffff
-1000030a4: 386a6a7b    	ldrb	w27, [x19, x10]
-1000030a8: 71017b7f    	cmp	w27, #94
-1000030ac: 540001c1    	b.ne	0x1000030e4 <_new_poly_from_string+0x144>
-1000030b0: 11000b5a    	add	w26, w26, #2
-1000030b4: 92403f49    	and	x9, x26, #0xffff
-1000030b8: 38696a69    	ldrb	w9, [x19, x9]
+0000000100003044 <_new_poly_from_string>:
+100003044: a9ba6ffc    	stp	x28, x27, [sp, #-96]!
+100003048: a90167fa    	stp	x26, x25, [sp, #16]
+10000304c: a9025ff8    	stp	x24, x23, [sp, #32]
+100003050: a90357f6    	stp	x22, x21, [sp, #48]
+100003054: a9044ff4    	stp	x20, x19, [sp, #64]
+100003058: a9057bfd    	stp	x29, x30, [sp, #80]
+10000305c: 910143fd    	add	x29, sp, #80
+100003060: aa0003f3    	mov	x19, x0
+100003064: d2800000    	mov	x0, #0
+100003068: aa1303f4    	mov	x20, x19
+10000306c: 38401689    	ldrb	w9, [x20], #1
+100003070: 12800015    	mov	w21, #-1
+100003074: 52800036    	mov	w22, #1
+100003078: 52800157    	mov	w23, #10
+10000307c: 12800018    	mov	w24, #-1
+100003080: aa1303f9    	mov	x25, x19
+100003084: 1400000d    	b	0x1000030b8 <_new_poly_from_string+0x74>
+100003088: 11000778    	add	w24, w27, #1
+10000308c: 937e7f08    	sbfiz	x8, x24, #2, #32
+100003090: 91004101    	add	x1, x8, #16
+100003094: 52800020    	mov	w0, #1
+100003098: 940000ce    	bl	0x1000033d0 <___check_calloc>
+10000309c: 91004008    	add	x8, x0, #16
+1000030a0: f9000408    	str	x8, [x0, #8]
+1000030a4: b9000018    	str	w24, [x0]
+1000030a8: 1b1a7f89    	mul	w9, w28, w26
+1000030ac: b83bd909    	str	w9, [x8, w27, sxtw #2]
+1000030b0: 39400329    	ldrb	w9, [x25]
+1000030b4: 34000669    	cbz	w9, 0x100003180 <_new_poly_from_string+0x13c>
+1000030b8: 52800008    	mov	w8, #0
 1000030bc: 7100813f    	cmp	w9, #32
-1000030c0: 54000221    	b.ne	0x100003104 <_new_poly_from_string+0x164>
-1000030c4: 5280001c    	mov	w28, #0
-1000030c8: 5280041b    	mov	w27, #32
-1000030cc: 7100039f    	cmp	w28, #0
-1000030d0: 7a40c900    	ccmp	w8, #0, #0, gt
-1000030d4: 1a9f1515    	csinc	w21, w8, wzr, ne
-1000030d8: 3100071f    	cmn	w24, #1
-1000030dc: 54000301    	b.ne	0x10000313c <_new_poly_from_string+0x19c>
-1000030e0: 17ffffc2    	b	0x100002fe8 <_new_poly_from_string+0x48>
-1000030e4: 5280003c    	mov	w28, #1
-1000030e8: aa0903fa    	mov	x26, x9
-1000030ec: 7100039f    	cmp	w28, #0
-1000030f0: 7a40c900    	ccmp	w8, #0, #0, gt
-1000030f4: 1a9f1515    	csinc	w21, w8, wzr, ne
-1000030f8: 3100071f    	cmn	w24, #1
-1000030fc: 54000201    	b.ne	0x10000313c <_new_poly_from_string+0x19c>
-100003100: 17ffffba    	b	0x100002fe8 <_new_poly_from_string+0x48>
-100003104: 5280001c    	mov	w28, #0
-100003108: 1b172789    	madd	w9, w28, w23, w9
-10000310c: 5100c13c    	sub	w28, w9, #48
-100003110: 1100075a    	add	w26, w26, #1
-100003114: 92403f49    	and	x9, x26, #0xffff
-100003118: 38696a69    	ldrb	w9, [x19, x9]
-10000311c: 7100813f    	cmp	w9, #32
-100003120: 54ffff41    	b.ne	0x100003108 <_new_poly_from_string+0x168>
-100003124: 5280041b    	mov	w27, #32
-100003128: 7100039f    	cmp	w28, #0
-10000312c: 7a40c900    	ccmp	w8, #0, #0, gt
-100003130: 1a9f1515    	csinc	w21, w8, wzr, ne
-100003134: 3100071f    	cmn	w24, #1
-100003138: 54fff580    	b.eq	0x100002fe8 <_new_poly_from_string+0x48>
-10000313c: f9400680    	ldr	x0, [x20, #8]
-100003140: 17ffffb1    	b	0x100003004 <_new_poly_from_string+0x64>
-100003144: aa1403e0    	mov	x0, x20
-100003148: a9457bfd    	ldp	x29, x30, [sp, #80]
-10000314c: a9444ff4    	ldp	x20, x19, [sp, #64]
-100003150: a94357f6    	ldp	x22, x21, [sp, #48]
-100003154: a9425ff8    	ldp	x24, x23, [sp, #32]
-100003158: a94167fa    	ldp	x26, x25, [sp, #16]
-10000315c: a8c66ffc    	ldp	x28, x27, [sp], #96
-100003160: d65f03c0    	ret
+1000030c0: 9a991729    	cinc	x9, x25, eq
+1000030c4: 3940012a    	ldrb	w10, [x9]
+1000030c8: 9100092b    	add	x11, x9, #2
+1000030cc: eb13013f    	cmp	x9, x19
+1000030d0: 9a8b028c    	csel	x12, x20, x11, eq
+1000030d4: 7100b55f    	cmp	w10, #45
+1000030d8: 1a9512cd    	csel	w13, w22, w21, ne
+1000030dc: 9a8c1129    	csel	x9, x9, x12, ne
+1000030e0: 7100ad5f    	cmp	w10, #43
+1000030e4: 1a8d02da    	csel	w26, w22, w13, eq
+1000030e8: 9a890179    	csel	x25, x11, x9, eq
+1000030ec: 39400329    	ldrb	w9, [x25]
+1000030f0: 340001e9    	cbz	w9, 0x10000312c <_new_poly_from_string+0xe8>
+1000030f4: 7101e13f    	cmp	w9, #120
+1000030f8: 540000c0    	b.eq	0x100003110 <_new_poly_from_string+0xcc>
+1000030fc: 1b172508    	madd	w8, w8, w23, w9
+100003100: 5100c108    	sub	w8, w8, #48
+100003104: 38401f29    	ldrb	w9, [x25, #1]!
+100003108: 35ffff69    	cbnz	w9, 0x1000030f4 <_new_poly_from_string+0xb0>
+10000310c: 14000008    	b	0x10000312c <_new_poly_from_string+0xe8>
+100003110: aa1903e9    	mov	x9, x25
+100003114: 38401d2a    	ldrb	w10, [x9, #1]!
+100003118: 7101795f    	cmp	w10, #94
+10000311c: 540000c1    	b.ne	0x100003134 <_new_poly_from_string+0xf0>
+100003120: 38402f29    	ldrb	w9, [x25, #2]!
+100003124: 7100813f    	cmp	w9, #32
+100003128: 540000c1    	b.ne	0x100003140 <_new_poly_from_string+0xfc>
+10000312c: 5280001b    	mov	w27, #0
+100003130: 1400000a    	b	0x100003158 <_new_poly_from_string+0x114>
+100003134: 5280003b    	mov	w27, #1
+100003138: aa0903f9    	mov	x25, x9
+10000313c: 14000007    	b	0x100003158 <_new_poly_from_string+0x114>
+100003140: 5280001b    	mov	w27, #0
+100003144: 1b172769    	madd	w9, w27, w23, w9
+100003148: 5100c13b    	sub	w27, w9, #48
+10000314c: 38401f29    	ldrb	w9, [x25, #1]!
+100003150: 7100813f    	cmp	w9, #32
+100003154: 54ffff81    	b.ne	0x100003144 <_new_poly_from_string+0x100>
+100003158: 7100037f    	cmp	w27, #0
+10000315c: 7a40c900    	ccmp	w8, #0, #0, gt
+100003160: 1a9f151c    	csinc	w28, w8, wzr, ne
+100003164: 3100071f    	cmn	w24, #1
+100003168: 54fff900    	b.eq	0x100003088 <_new_poly_from_string+0x44>
+10000316c: f9400408    	ldr	x8, [x0, #8]
+100003170: 1b1a7f89    	mul	w9, w28, w26
+100003174: b83bd909    	str	w9, [x8, w27, sxtw #2]
+100003178: 39400329    	ldrb	w9, [x25]
+10000317c: 35fff9e9    	cbnz	w9, 0x1000030b8 <_new_poly_from_string+0x74>
+100003180: a9457bfd    	ldp	x29, x30, [sp, #80]
+100003184: a9444ff4    	ldp	x20, x19, [sp, #64]
+100003188: a94357f6    	ldp	x22, x21, [sp, #48]
+10000318c: a9425ff8    	ldp	x24, x23, [sp, #32]
+100003190: a94167fa    	ldp	x26, x25, [sp, #16]
+100003194: a8c66ffc    	ldp	x28, x27, [sp], #96
+100003198: d65f03c0    	ret
 
-0000000100003164 <_free_poly>:
-100003164: a9be4ff4    	stp	x20, x19, [sp, #-32]!
-100003168: a9017bfd    	stp	x29, x30, [sp, #16]
-10000316c: 910043fd    	add	x29, sp, #16
-100003170: aa0003f3    	mov	x19, x0
-100003174: f9400400    	ldr	x0, [x0, #8]
-100003178: 940000b7    	bl	0x100003454 <___check_free>
-10000317c: aa1303e0    	mov	x0, x19
-100003180: a9417bfd    	ldp	x29, x30, [sp, #16]
-100003184: a8c24ff4    	ldp	x20, x19, [sp], #32
-100003188: 140000b3    	b	0x100003454 <___check_free>
+000000010000319c <_free_poly>:
+10000319c: 140000ae    	b	0x100003454 <___check_free>
 
-000000010000318c <_mul>:
-10000318c: a9bd57f6    	stp	x22, x21, [sp, #-48]!
-100003190: a9014ff4    	stp	x20, x19, [sp, #16]
-100003194: a9027bfd    	stp	x29, x30, [sp, #32]
-100003198: 910083fd    	add	x29, sp, #32
-10000319c: aa0103f3    	mov	x19, x1
-1000031a0: aa0003f4    	mov	x20, x0
-1000031a4: 52800200    	mov	w0, #16
-1000031a8: 94000073    	bl	0x100003374 <___check_malloc>
-1000031ac: aa0003f5    	mov	x21, x0
-1000031b0: b9400288    	ldr	w8, [x20]
-1000031b4: b9400269    	ldr	w9, [x19]
-1000031b8: 0b090108    	add	w8, w8, w9
-1000031bc: 51000508    	sub	w8, w8, #1
-1000031c0: b9000008    	str	w8, [x0]
-1000031c4: 93407d00    	sxtw	x0, w8
-1000031c8: 52800081    	mov	w1, #4
-1000031cc: 94000081    	bl	0x1000033d0 <___check_calloc>
-1000031d0: f90006a0    	str	x0, [x21, #8]
-1000031d4: b9400289    	ldr	w9, [x20]
-1000031d8: 34000349    	cbz	w9, 0x100003240 <_mul+0xb4>
-1000031dc: b9400268    	ldr	w8, [x19]
-1000031e0: 34000308    	cbz	w8, 0x100003240 <_mul+0xb4>
-1000031e4: d2800008    	mov	x8, #0
-1000031e8: 5280002a    	mov	w10, #1
-1000031ec: 14000004    	b	0x1000031fc <_mul+0x70>
-1000031f0: 91000508    	add	x8, x8, #1
-1000031f4: eb09011f    	cmp	x8, x9
-1000031f8: 54000242    	b.hs	0x100003240 <_mul+0xb4>
-1000031fc: 34ffffaa    	cbz	w10, 0x1000031f0 <_mul+0x64>
-100003200: d2800009    	mov	x9, #0
-100003204: f940068b    	ldr	x11, [x20, #8]
-100003208: f940066c    	ldr	x12, [x19, #8]
-10000320c: b868796a    	ldr	w10, [x11, x8, lsl #2]
-100003210: b869798d    	ldr	w13, [x12, x9, lsl #2]
-100003214: 0b09010e    	add	w14, w8, w9
-100003218: d37e7dce    	ubfiz	x14, x14, #2, #32
-10000321c: b86e680f    	ldr	w15, [x0, x14]
-100003220: 1b0a3daa    	madd	w10, w13, w10, w15
-100003224: b82e680a    	str	w10, [x0, x14]
-100003228: 91000529    	add	x9, x9, #1
-10000322c: b940026a    	ldr	w10, [x19]
-100003230: eb0a013f    	cmp	x9, x10
-100003234: 54fffec3    	b.lo	0x10000320c <_mul+0x80>
-100003238: b9400289    	ldr	w9, [x20]
-10000323c: 17ffffed    	b	0x1000031f0 <_mul+0x64>
-100003240: aa1503e0    	mov	x0, x21
-100003244: a9427bfd    	ldp	x29, x30, [sp, #32]
-100003248: a9414ff4    	ldp	x20, x19, [sp, #16]
-10000324c: a8c357f6    	ldp	x22, x21, [sp], #48
-100003250: d65f03c0    	ret
+00000001000031a0 <_mul>:
+1000031a0: a9bd57f6    	stp	x22, x21, [sp, #-48]!
+1000031a4: a9014ff4    	stp	x20, x19, [sp, #16]
+1000031a8: a9027bfd    	stp	x29, x30, [sp, #32]
+1000031ac: 910083fd    	add	x29, sp, #32
+1000031b0: aa0103f3    	mov	x19, x1
+1000031b4: aa0003f4    	mov	x20, x0
+1000031b8: b9400008    	ldr	w8, [x0]
+1000031bc: b9400029    	ldr	w9, [x1]
+1000031c0: 0b090108    	add	w8, w8, w9
+1000031c4: 51000515    	sub	w21, w8, #1
+1000031c8: 937e7ea8    	sbfiz	x8, x21, #2, #32
+1000031cc: 91004101    	add	x1, x8, #16
+1000031d0: 52800020    	mov	w0, #1
+1000031d4: 9400007f    	bl	0x1000033d0 <___check_calloc>
+1000031d8: d2800008    	mov	x8, #0
+1000031dc: 91004009    	add	x9, x0, #16
+1000031e0: f9000409    	str	x9, [x0, #8]
+1000031e4: b9000015    	str	w21, [x0]
+1000031e8: f940068a    	ldr	x10, [x20, #8]
+1000031ec: f940066b    	ldr	x11, [x19, #8]
+1000031f0: d280000c    	mov	x12, #0
+1000031f4: b868794d    	ldr	w13, [x10, x8, lsl #2]
+1000031f8: d37ef58e    	lsl	x14, x12, #2
+1000031fc: b86e696f    	ldr	w15, [x11, x14]
+100003200: b86e6930    	ldr	w16, [x9, x14]
+100003204: 1b0d41ed    	madd	w13, w15, w13, w16
+100003208: b82e692d    	str	w13, [x9, x14]
+10000320c: 9100058c    	add	x12, x12, #1
+100003210: b980026d    	ldrsw	x13, [x19]
+100003214: eb0d019f    	cmp	x12, x13
+100003218: 54fffeeb    	b.lt	0x1000031f4 <_mul+0x54>
+10000321c: 91000508    	add	x8, x8, #1
+100003220: b980028c    	ldrsw	x12, [x20]
+100003224: 91001129    	add	x9, x9, #4
+100003228: eb0c011f    	cmp	x8, x12
+10000322c: 54fffe2b    	b.lt	0x1000031f0 <_mul+0x50>
+100003230: a9427bfd    	ldp	x29, x30, [sp, #32]
+100003234: a9414ff4    	ldp	x20, x19, [sp, #16]
+100003238: a8c357f6    	ldp	x22, x21, [sp], #48
+10000323c: d65f03c0    	ret
 
-0000000100003254 <_print_poly>:
-100003254: d101c3ff    	sub	sp, sp, #112
-100003258: a9016ffc    	stp	x28, x27, [sp, #16]
-10000325c: a90267fa    	stp	x26, x25, [sp, #32]
-100003260: a9035ff8    	stp	x24, x23, [sp, #48]
-100003264: a90457f6    	stp	x22, x21, [sp, #64]
-100003268: a9054ff4    	stp	x20, x19, [sp, #80]
-10000326c: a9067bfd    	stp	x29, x30, [sp, #96]
-100003270: 910183fd    	add	x29, sp, #96
-100003274: b9400018    	ldr	w24, [x0]
-100003278: 7100071f    	cmp	w24, #1
-10000327c: 540006ab    	b.lt	0x100003350 <_print_poly+0xfc>
-100003280: aa0003f3    	mov	x19, x0
-100003284: 90000016    	adrp	x22, 0x100003000 <_print_poly+0x30>
-100003288: 912f52d6    	add	x22, x22, #3028
-10000328c: 90000014    	adrp	x20, 0x100003000 <_print_poly+0x38>
-100003290: 912f6a94    	add	x20, x20, #3034
-100003294: 90000015    	adrp	x21, 0x100003000 <_print_poly+0x40>
-100003298: 912f76b5    	add	x21, x21, #3037
-10000329c: 90000017    	adrp	x23, 0x100003000 <_print_poly+0x48>
-1000032a0: 912f5ef7    	add	x23, x23, #3031
-1000032a4: 14000005    	b	0x1000032b8 <_print_poly+0x64>
-1000032a8: 91000728    	add	x8, x25, #1
-1000032ac: aa1903f8    	mov	x24, x25
-1000032b0: f100051f    	cmp	x8, #1
-1000032b4: 540004e9    	b.ls	0x100003350 <_print_poly+0xfc>
-1000032b8: d1000719    	sub	x25, x24, #1
-1000032bc: f9400668    	ldr	x8, [x19, #8]
-1000032c0: b879591b    	ldr	w27, [x8, w25, uxtw #2]
-1000032c4: 7100037f    	cmp	w27, #0
-1000032c8: 5a9b577a    	cneg	w26, w27, mi
-1000032cc: 34fffefb    	cbz	w27, 0x1000032a8 <_print_poly+0x54>
+0000000100003240 <_print_poly>:
+100003240: d101c3ff    	sub	sp, sp, #112
+100003244: a9016ffc    	stp	x28, x27, [sp, #16]
+100003248: a90267fa    	stp	x26, x25, [sp, #32]
+10000324c: a9035ff8    	stp	x24, x23, [sp, #48]
+100003250: a90457f6    	stp	x22, x21, [sp, #64]
+100003254: a9054ff4    	stp	x20, x19, [sp, #80]
+100003258: a9067bfd    	stp	x29, x30, [sp, #96]
+10000325c: 910183fd    	add	x29, sp, #96
+100003260: aa0003f3    	mov	x19, x0
+100003264: d2800016    	mov	x22, #0
+100003268: b9800017    	ldrsw	x23, [x0]
+10000326c: d37ef6e8    	lsl	x8, x23, #2
+100003270: d1001118    	sub	x24, x8, #4
+100003274: 510006f9    	sub	w25, w23, #1
+100003278: 9000001b    	adrp	x27, 0x100003000 <_print_poly+0x38>
+10000327c: 912f5f7b    	add	x27, x27, #3031
+100003280: 14000006    	b	0x100003298 <_print_poly+0x58>
+100003284: d10006d6    	sub	x22, x22, #1
+100003288: 8b1602e8    	add	x8, x23, x22
+10000328c: 91000508    	add	x8, x8, #1
+100003290: f100051f    	cmp	x8, #1
+100003294: 540005ed    	b.le	0x100003350 <_print_poly+0x110>
+100003298: f9400668    	ldr	x8, [x19, #8]
+10000329c: 8b180108    	add	x8, x8, x24
+1000032a0: b8767915    	ldr	w21, [x8, x22, lsl #2]
+1000032a4: 710002bf    	cmp	w21, #0
+1000032a8: 5a9556ba    	cneg	w26, w21, mi
+1000032ac: 34fffed5    	cbz	w21, 0x100003284 <_print_poly+0x44>
+1000032b0: b9800268    	ldrsw	x8, [x19]
+1000032b4: 8b1602fc    	add	x28, x23, x22
+1000032b8: eb08039f    	cmp	x28, x8
+1000032bc: 5400006a    	b.ge	0x1000032c8 <_print_poly+0x88>
+1000032c0: 52800400    	mov	w0, #32
+1000032c4: 9400023e    	bl	0x100003bbc <_realloc+0x100003bbc>
+1000032c8: d1000794    	sub	x20, x28, #1
+1000032cc: 37f80175    	tbnz	w21, #31, 0x1000032f8 <_print_poly+0xb8>
 1000032d0: b9800268    	ldrsw	x8, [x19]
-1000032d4: eb08031f    	cmp	x24, x8
-1000032d8: 5400006a    	b.ge	0x1000032e4 <_print_poly+0x90>
-1000032dc: 52800400    	mov	w0, #32
-1000032e0: 94000237    	bl	0x100003bbc <_realloc+0x100003bbc>
-1000032e4: 37f8013b    	tbnz	w27, #31, 0x100003308 <_print_poly+0xb4>
-1000032e8: b9800268    	ldrsw	x8, [x19]
-1000032ec: aa1703e0    	mov	x0, x23
-1000032f0: eb08031f    	cmp	x24, x8
-1000032f4: 540000cb    	b.lt	0x10000330c <_print_poly+0xb8>
-1000032f8: 7100075f    	cmp	w26, #1
-1000032fc: 7a419b04    	ccmp	w24, #1, #4, ls
-100003300: 540000e0    	b.eq	0x10000331c <_print_poly+0xc8>
-100003304: 1400000b    	b	0x100003330 <_print_poly+0xdc>
-100003308: aa1603e0    	mov	x0, x22
-10000330c: 94000229    	bl	0x100003bb0 <_realloc+0x100003bb0>
-100003310: 7100075f    	cmp	w26, #1
-100003314: 7a419b04    	ccmp	w24, #1, #4, ls
-100003318: 540000c1    	b.ne	0x100003330 <_print_poly+0xdc>
-10000331c: f90003fa    	str	x26, [sp]
-100003320: aa1403e0    	mov	x0, x20
-100003324: 94000223    	bl	0x100003bb0 <_realloc+0x100003bb0>
-100003328: f1000b1f    	cmp	x24, #2
-10000332c: 54000123    	b.lo	0x100003350 <_print_poly+0xfc>
-100003330: 52800f00    	mov	w0, #120
-100003334: 94000222    	bl	0x100003bbc <_realloc+0x100003bbc>
-100003338: f1000f1f    	cmp	x24, #3
-10000333c: 54fffb63    	b.lo	0x1000032a8 <_print_poly+0x54>
-100003340: f90003f9    	str	x25, [sp]
-100003344: aa1503e0    	mov	x0, x21
+1000032d4: aa1b03e0    	mov	x0, x27
+1000032d8: eb08039f    	cmp	x28, x8
+1000032dc: 5400012b    	b.lt	0x100003300 <_print_poly+0xc0>
+1000032e0: 7100075f    	cmp	w26, #1
+1000032e4: fa409a84    	ccmp	x20, #0, #4, ls
+1000032e8: 54000140    	b.eq	0x100003310 <_print_poly+0xd0>
+1000032ec: f1000b9f    	cmp	x28, #2
+1000032f0: 540001ca    	b.ge	0x100003328 <_print_poly+0xe8>
+1000032f4: 14000017    	b	0x100003350 <_print_poly+0x110>
+1000032f8: 90000000    	adrp	x0, 0x100003000 <_print_poly+0xb8>
+1000032fc: 912f5000    	add	x0, x0, #3028
+100003300: 9400022c    	bl	0x100003bb0 <_realloc+0x100003bb0>
+100003304: 7100075f    	cmp	w26, #1
+100003308: fa409a84    	ccmp	x20, #0, #4, ls
+10000330c: 54ffff01    	b.ne	0x1000032ec <_print_poly+0xac>
+100003310: f90003fa    	str	x26, [sp]
+100003314: 90000000    	adrp	x0, 0x100003000 <_print_poly+0xd4>
+100003318: 912f6800    	add	x0, x0, #3034
+10000331c: 94000225    	bl	0x100003bb0 <_realloc+0x100003bb0>
+100003320: f1000b9f    	cmp	x28, #2
+100003324: 5400016b    	b.lt	0x100003350 <_print_poly+0x110>
+100003328: d1000b94    	sub	x20, x28, #2
+10000332c: 52800f00    	mov	w0, #120
+100003330: 94000223    	bl	0x100003bbc <_realloc+0x100003bbc>
+100003334: b4fffa94    	cbz	x20, 0x100003284 <_print_poly+0x44>
+100003338: 8b160328    	add	x8, x25, x22
+10000333c: f90003e8    	str	x8, [sp]
+100003340: 90000000    	adrp	x0, 0x100003000 <_print_poly+0x100>
+100003344: 912f7400    	add	x0, x0, #3037
 100003348: 9400021a    	bl	0x100003bb0 <_realloc+0x100003bb0>
-10000334c: 17ffffd7    	b	0x1000032a8 <_print_poly+0x54>
+10000334c: 17ffffce    	b	0x100003284 <_print_poly+0x44>
 100003350: 52800140    	mov	w0, #10
 100003354: a9467bfd    	ldp	x29, x30, [sp, #96]
 100003358: a9454ff4    	ldp	x20, x19, [sp, #80]
@@ -399,26 +358,26 @@ Disassembly of section __TEXT,__text:
 100003570: aa1303e0    	mov	x0, x19
 100003574: 9400018f    	bl	0x100003bb0 <_realloc+0x100003bb0>
 100003578: aa1503e0    	mov	x0, x21
-10000357c: 97fffe89    	bl	0x100002fa0 <_new_poly_from_string>
+10000357c: 97fffeb2    	bl	0x100003044 <_new_poly_from_string>
 100003580: aa0003f6    	mov	x22, x0
 100003584: aa1403e0    	mov	x0, x20
-100003588: 97fffe86    	bl	0x100002fa0 <_new_poly_from_string>
+100003588: 97fffeaf    	bl	0x100003044 <_new_poly_from_string>
 10000358c: aa0003f7    	mov	x23, x0
 100003590: aa1603e0    	mov	x0, x22
-100003594: 97ffff30    	bl	0x100003254 <_print_poly>
+100003594: 97ffff2b    	bl	0x100003240 <_print_poly>
 100003598: aa1703e0    	mov	x0, x23
-10000359c: 97ffff2e    	bl	0x100003254 <_print_poly>
+10000359c: 97ffff29    	bl	0x100003240 <_print_poly>
 1000035a0: aa1603e0    	mov	x0, x22
 1000035a4: aa1703e1    	mov	x1, x23
-1000035a8: 97fffef9    	bl	0x10000318c <_mul>
+1000035a8: 97fffefe    	bl	0x1000031a0 <_mul>
 1000035ac: aa0003f8    	mov	x24, x0
-1000035b0: 97ffff29    	bl	0x100003254 <_print_poly>
+1000035b0: 97ffff24    	bl	0x100003240 <_print_poly>
 1000035b4: aa1603e0    	mov	x0, x22
-1000035b8: 97fffeeb    	bl	0x100003164 <_free_poly>
+1000035b8: 97fffef9    	bl	0x10000319c <_free_poly>
 1000035bc: aa1703e0    	mov	x0, x23
-1000035c0: 97fffee9    	bl	0x100003164 <_free_poly>
+1000035c0: 97fffef7    	bl	0x10000319c <_free_poly>
 1000035c4: aa1803e0    	mov	x0, x24
-1000035c8: 97fffee7    	bl	0x100003164 <_free_poly>
+1000035c8: 97fffef5    	bl	0x10000319c <_free_poly>
 1000035cc: a90053f5    	stp	x21, x20, [sp]
 1000035d0: 90000014    	adrp	x20, 0x100003000 <_main+0x98>
 1000035d4: 913d2a94    	add	x20, x20, #3914
@@ -434,26 +393,26 @@ Disassembly of section __TEXT,__text:
 1000035fc: aa1303e0    	mov	x0, x19
 100003600: 9400016c    	bl	0x100003bb0 <_realloc+0x100003bb0>
 100003604: aa1603e0    	mov	x0, x22
-100003608: 97fffe66    	bl	0x100002fa0 <_new_poly_from_string>
+100003608: 97fffe8f    	bl	0x100003044 <_new_poly_from_string>
 10000360c: aa0003f7    	mov	x23, x0
 100003610: aa1503e0    	mov	x0, x21
-100003614: 97fffe63    	bl	0x100002fa0 <_new_poly_from_string>
+100003614: 97fffe8c    	bl	0x100003044 <_new_poly_from_string>
 100003618: aa0003f8    	mov	x24, x0
 10000361c: aa1703e0    	mov	x0, x23
-100003620: 97ffff0d    	bl	0x100003254 <_print_poly>
+100003620: 97ffff08    	bl	0x100003240 <_print_poly>
 100003624: aa1803e0    	mov	x0, x24
-100003628: 97ffff0b    	bl	0x100003254 <_print_poly>
+100003628: 97ffff06    	bl	0x100003240 <_print_poly>
 10000362c: aa1703e0    	mov	x0, x23
 100003630: aa1803e1    	mov	x1, x24
-100003634: 97fffed6    	bl	0x10000318c <_mul>
+100003634: 97fffedb    	bl	0x1000031a0 <_mul>
 100003638: aa0003f9    	mov	x25, x0
-10000363c: 97ffff06    	bl	0x100003254 <_print_poly>
+10000363c: 97ffff01    	bl	0x100003240 <_print_poly>
 100003640: aa1703e0    	mov	x0, x23
-100003644: 97fffec8    	bl	0x100003164 <_free_poly>
+100003644: 97fffed6    	bl	0x10000319c <_free_poly>
 100003648: aa1803e0    	mov	x0, x24
-10000364c: 97fffec6    	bl	0x100003164 <_free_poly>
+10000364c: 97fffed4    	bl	0x10000319c <_free_poly>
 100003650: aa1903e0    	mov	x0, x25
-100003654: 97fffec4    	bl	0x100003164 <_free_poly>
+100003654: 97fffed2    	bl	0x10000319c <_free_poly>
 100003658: a90057f6    	stp	x22, x21, [sp]
 10000365c: aa1403e0    	mov	x0, x20
 100003660: 94000154    	bl	0x100003bb0 <_realloc+0x100003bb0>
@@ -467,26 +426,26 @@ Disassembly of section __TEXT,__text:
 100003680: aa1303e0    	mov	x0, x19
 100003684: 9400014b    	bl	0x100003bb0 <_realloc+0x100003bb0>
 100003688: aa1603e0    	mov	x0, x22
-10000368c: 97fffe45    	bl	0x100002fa0 <_new_poly_from_string>
+10000368c: 97fffe6e    	bl	0x100003044 <_new_poly_from_string>
 100003690: aa0003f7    	mov	x23, x0
 100003694: aa1503e0    	mov	x0, x21
-100003698: 97fffe42    	bl	0x100002fa0 <_new_poly_from_string>
+100003698: 97fffe6b    	bl	0x100003044 <_new_poly_from_string>
 10000369c: aa0003f8    	mov	x24, x0
 1000036a0: aa1703e0    	mov	x0, x23
-1000036a4: 97fffeec    	bl	0x100003254 <_print_poly>
+1000036a4: 97fffee7    	bl	0x100003240 <_print_poly>
 1000036a8: aa1803e0    	mov	x0, x24
-1000036ac: 97fffeea    	bl	0x100003254 <_print_poly>
+1000036ac: 97fffee5    	bl	0x100003240 <_print_poly>
 1000036b0: aa1703e0    	mov	x0, x23
 1000036b4: aa1803e1    	mov	x1, x24
-1000036b8: 97fffeb5    	bl	0x10000318c <_mul>
+1000036b8: 97fffeba    	bl	0x1000031a0 <_mul>
 1000036bc: aa0003f9    	mov	x25, x0
-1000036c0: 97fffee5    	bl	0x100003254 <_print_poly>
+1000036c0: 97fffee0    	bl	0x100003240 <_print_poly>
 1000036c4: aa1703e0    	mov	x0, x23
-1000036c8: 97fffea7    	bl	0x100003164 <_free_poly>
+1000036c8: 97fffeb5    	bl	0x10000319c <_free_poly>
 1000036cc: aa1803e0    	mov	x0, x24
-1000036d0: 97fffea5    	bl	0x100003164 <_free_poly>
+1000036d0: 97fffeb3    	bl	0x10000319c <_free_poly>
 1000036d4: aa1903e0    	mov	x0, x25
-1000036d8: 97fffea3    	bl	0x100003164 <_free_poly>
+1000036d8: 97fffeb1    	bl	0x10000319c <_free_poly>
 1000036dc: a90057f6    	stp	x22, x21, [sp]
 1000036e0: aa1403e0    	mov	x0, x20
 1000036e4: 94000133    	bl	0x100003bb0 <_realloc+0x100003bb0>
@@ -500,26 +459,26 @@ Disassembly of section __TEXT,__text:
 100003704: aa1303e0    	mov	x0, x19
 100003708: 9400012a    	bl	0x100003bb0 <_realloc+0x100003bb0>
 10000370c: aa1603e0    	mov	x0, x22
-100003710: 97fffe24    	bl	0x100002fa0 <_new_poly_from_string>
+100003710: 97fffe4d    	bl	0x100003044 <_new_poly_from_string>
 100003714: aa0003f7    	mov	x23, x0
 100003718: aa1503e0    	mov	x0, x21
-10000371c: 97fffe21    	bl	0x100002fa0 <_new_poly_from_string>
+10000371c: 97fffe4a    	bl	0x100003044 <_new_poly_from_string>
 100003720: aa0003f8    	mov	x24, x0
 100003724: aa1703e0    	mov	x0, x23
-100003728: 97fffecb    	bl	0x100003254 <_print_poly>
+100003728: 97fffec6    	bl	0x100003240 <_print_poly>
 10000372c: aa1803e0    	mov	x0, x24
-100003730: 97fffec9    	bl	0x100003254 <_print_poly>
+100003730: 97fffec4    	bl	0x100003240 <_print_poly>
 100003734: aa1703e0    	mov	x0, x23
 100003738: aa1803e1    	mov	x1, x24
-10000373c: 97fffe94    	bl	0x10000318c <_mul>
+10000373c: 97fffe99    	bl	0x1000031a0 <_mul>
 100003740: aa0003f9    	mov	x25, x0
-100003744: 97fffec4    	bl	0x100003254 <_print_poly>
+100003744: 97fffebf    	bl	0x100003240 <_print_poly>
 100003748: aa1703e0    	mov	x0, x23
-10000374c: 97fffe86    	bl	0x100003164 <_free_poly>
+10000374c: 97fffe94    	bl	0x10000319c <_free_poly>
 100003750: aa1803e0    	mov	x0, x24
-100003754: 97fffe84    	bl	0x100003164 <_free_poly>
+100003754: 97fffe92    	bl	0x10000319c <_free_poly>
 100003758: aa1903e0    	mov	x0, x25
-10000375c: 97fffe82    	bl	0x100003164 <_free_poly>
+10000375c: 97fffe90    	bl	0x10000319c <_free_poly>
 100003760: a90057f6    	stp	x22, x21, [sp]
 100003764: aa1403e0    	mov	x0, x20
 100003768: 94000112    	bl	0x100003bb0 <_realloc+0x100003bb0>
@@ -533,26 +492,26 @@ Disassembly of section __TEXT,__text:
 100003788: aa1303e0    	mov	x0, x19
 10000378c: 94000109    	bl	0x100003bb0 <_realloc+0x100003bb0>
 100003790: aa1603e0    	mov	x0, x22
-100003794: 97fffe03    	bl	0x100002fa0 <_new_poly_from_string>
+100003794: 97fffe2c    	bl	0x100003044 <_new_poly_from_string>
 100003798: aa0003f7    	mov	x23, x0
 10000379c: aa1503e0    	mov	x0, x21
-1000037a0: 97fffe00    	bl	0x100002fa0 <_new_poly_from_string>
+1000037a0: 97fffe29    	bl	0x100003044 <_new_poly_from_string>
 1000037a4: aa0003f8    	mov	x24, x0
 1000037a8: aa1703e0    	mov	x0, x23
-1000037ac: 97fffeaa    	bl	0x100003254 <_print_poly>
+1000037ac: 97fffea5    	bl	0x100003240 <_print_poly>
 1000037b0: aa1803e0    	mov	x0, x24
-1000037b4: 97fffea8    	bl	0x100003254 <_print_poly>
+1000037b4: 97fffea3    	bl	0x100003240 <_print_poly>
 1000037b8: aa1703e0    	mov	x0, x23
 1000037bc: aa1803e1    	mov	x1, x24
-1000037c0: 97fffe73    	bl	0x10000318c <_mul>
+1000037c0: 97fffe78    	bl	0x1000031a0 <_mul>
 1000037c4: aa0003f9    	mov	x25, x0
-1000037c8: 97fffea3    	bl	0x100003254 <_print_poly>
+1000037c8: 97fffe9e    	bl	0x100003240 <_print_poly>
 1000037cc: aa1703e0    	mov	x0, x23
-1000037d0: 97fffe65    	bl	0x100003164 <_free_poly>
+1000037d0: 97fffe73    	bl	0x10000319c <_free_poly>
 1000037d4: aa1803e0    	mov	x0, x24
-1000037d8: 97fffe63    	bl	0x100003164 <_free_poly>
+1000037d8: 97fffe71    	bl	0x10000319c <_free_poly>
 1000037dc: aa1903e0    	mov	x0, x25
-1000037e0: 97fffe61    	bl	0x100003164 <_free_poly>
+1000037e0: 97fffe6f    	bl	0x10000319c <_free_poly>
 1000037e4: a90057f6    	stp	x22, x21, [sp]
 1000037e8: aa1403e0    	mov	x0, x20
 1000037ec: 940000f1    	bl	0x100003bb0 <_realloc+0x100003bb0>
@@ -566,26 +525,26 @@ Disassembly of section __TEXT,__text:
 10000380c: aa1303e0    	mov	x0, x19
 100003810: 940000e8    	bl	0x100003bb0 <_realloc+0x100003bb0>
 100003814: aa1603e0    	mov	x0, x22
-100003818: 97fffde2    	bl	0x100002fa0 <_new_poly_from_string>
+100003818: 97fffe0b    	bl	0x100003044 <_new_poly_from_string>
 10000381c: aa0003f7    	mov	x23, x0
 100003820: aa1503e0    	mov	x0, x21
-100003824: 97fffddf    	bl	0x100002fa0 <_new_poly_from_string>
+100003824: 97fffe08    	bl	0x100003044 <_new_poly_from_string>
 100003828: aa0003f8    	mov	x24, x0
 10000382c: aa1703e0    	mov	x0, x23
-100003830: 97fffe89    	bl	0x100003254 <_print_poly>
+100003830: 97fffe84    	bl	0x100003240 <_print_poly>
 100003834: aa1803e0    	mov	x0, x24
-100003838: 97fffe87    	bl	0x100003254 <_print_poly>
+100003838: 97fffe82    	bl	0x100003240 <_print_poly>
 10000383c: aa1703e0    	mov	x0, x23
 100003840: aa1803e1    	mov	x1, x24
-100003844: 97fffe52    	bl	0x10000318c <_mul>
+100003844: 97fffe57    	bl	0x1000031a0 <_mul>
 100003848: aa0003f9    	mov	x25, x0
-10000384c: 97fffe82    	bl	0x100003254 <_print_poly>
+10000384c: 97fffe7d    	bl	0x100003240 <_print_poly>
 100003850: aa1703e0    	mov	x0, x23
-100003854: 97fffe44    	bl	0x100003164 <_free_poly>
+100003854: 97fffe52    	bl	0x10000319c <_free_poly>
 100003858: aa1803e0    	mov	x0, x24
-10000385c: 97fffe42    	bl	0x100003164 <_free_poly>
+10000385c: 97fffe50    	bl	0x10000319c <_free_poly>
 100003860: aa1903e0    	mov	x0, x25
-100003864: 97fffe40    	bl	0x100003164 <_free_poly>
+100003864: 97fffe4e    	bl	0x10000319c <_free_poly>
 100003868: a90057f6    	stp	x22, x21, [sp]
 10000386c: aa1403e0    	mov	x0, x20
 100003870: 940000d0    	bl	0x100003bb0 <_realloc+0x100003bb0>
@@ -599,26 +558,26 @@ Disassembly of section __TEXT,__text:
 100003890: aa1303e0    	mov	x0, x19
 100003894: 940000c7    	bl	0x100003bb0 <_realloc+0x100003bb0>
 100003898: aa1603e0    	mov	x0, x22
-10000389c: 97fffdc1    	bl	0x100002fa0 <_new_poly_from_string>
+10000389c: 97fffdea    	bl	0x100003044 <_new_poly_from_string>
 1000038a0: aa0003f7    	mov	x23, x0
 1000038a4: aa1503e0    	mov	x0, x21
-1000038a8: 97fffdbe    	bl	0x100002fa0 <_new_poly_from_string>
+1000038a8: 97fffde7    	bl	0x100003044 <_new_poly_from_string>
 1000038ac: aa0003f8    	mov	x24, x0
 1000038b0: aa1703e0    	mov	x0, x23
-1000038b4: 97fffe68    	bl	0x100003254 <_print_poly>
+1000038b4: 97fffe63    	bl	0x100003240 <_print_poly>
 1000038b8: aa1803e0    	mov	x0, x24
-1000038bc: 97fffe66    	bl	0x100003254 <_print_poly>
+1000038bc: 97fffe61    	bl	0x100003240 <_print_poly>
 1000038c0: aa1703e0    	mov	x0, x23
 1000038c4: aa1803e1    	mov	x1, x24
-1000038c8: 97fffe31    	bl	0x10000318c <_mul>
+1000038c8: 97fffe36    	bl	0x1000031a0 <_mul>
 1000038cc: aa0003f9    	mov	x25, x0
-1000038d0: 97fffe61    	bl	0x100003254 <_print_poly>
+1000038d0: 97fffe5c    	bl	0x100003240 <_print_poly>
 1000038d4: aa1703e0    	mov	x0, x23
-1000038d8: 97fffe23    	bl	0x100003164 <_free_poly>
+1000038d8: 97fffe31    	bl	0x10000319c <_free_poly>
 1000038dc: aa1803e0    	mov	x0, x24
-1000038e0: 97fffe21    	bl	0x100003164 <_free_poly>
+1000038e0: 97fffe2f    	bl	0x10000319c <_free_poly>
 1000038e4: aa1903e0    	mov	x0, x25
-1000038e8: 97fffe1f    	bl	0x100003164 <_free_poly>
+1000038e8: 97fffe2d    	bl	0x10000319c <_free_poly>
 1000038ec: a90057f6    	stp	x22, x21, [sp]
 1000038f0: aa1403e0    	mov	x0, x20
 1000038f4: 940000af    	bl	0x100003bb0 <_realloc+0x100003bb0>
@@ -632,26 +591,26 @@ Disassembly of section __TEXT,__text:
 100003914: aa1303e0    	mov	x0, x19
 100003918: 940000a6    	bl	0x100003bb0 <_realloc+0x100003bb0>
 10000391c: aa1603e0    	mov	x0, x22
-100003920: 97fffda0    	bl	0x100002fa0 <_new_poly_from_string>
+100003920: 97fffdc9    	bl	0x100003044 <_new_poly_from_string>
 100003924: aa0003f7    	mov	x23, x0
 100003928: aa1503e0    	mov	x0, x21
-10000392c: 97fffd9d    	bl	0x100002fa0 <_new_poly_from_string>
+10000392c: 97fffdc6    	bl	0x100003044 <_new_poly_from_string>
 100003930: aa0003f8    	mov	x24, x0
 100003934: aa1703e0    	mov	x0, x23
-100003938: 97fffe47    	bl	0x100003254 <_print_poly>
+100003938: 97fffe42    	bl	0x100003240 <_print_poly>
 10000393c: aa1803e0    	mov	x0, x24
-100003940: 97fffe45    	bl	0x100003254 <_print_poly>
+100003940: 97fffe40    	bl	0x100003240 <_print_poly>
 100003944: aa1703e0    	mov	x0, x23
 100003948: aa1803e1    	mov	x1, x24
-10000394c: 97fffe10    	bl	0x10000318c <_mul>
+10000394c: 97fffe15    	bl	0x1000031a0 <_mul>
 100003950: aa0003f9    	mov	x25, x0
-100003954: 97fffe40    	bl	0x100003254 <_print_poly>
+100003954: 97fffe3b    	bl	0x100003240 <_print_poly>
 100003958: aa1703e0    	mov	x0, x23
-10000395c: 97fffe02    	bl	0x100003164 <_free_poly>
+10000395c: 97fffe10    	bl	0x10000319c <_free_poly>
 100003960: aa1803e0    	mov	x0, x24
-100003964: 97fffe00    	bl	0x100003164 <_free_poly>
+100003964: 97fffe0e    	bl	0x10000319c <_free_poly>
 100003968: aa1903e0    	mov	x0, x25
-10000396c: 97fffdfe    	bl	0x100003164 <_free_poly>
+10000396c: 97fffe0c    	bl	0x10000319c <_free_poly>
 100003970: a90057f6    	stp	x22, x21, [sp]
 100003974: aa1403e0    	mov	x0, x20
 100003978: 9400008e    	bl	0x100003bb0 <_realloc+0x100003bb0>
@@ -665,26 +624,26 @@ Disassembly of section __TEXT,__text:
 100003998: aa1303e0    	mov	x0, x19
 10000399c: 94000085    	bl	0x100003bb0 <_realloc+0x100003bb0>
 1000039a0: aa1603e0    	mov	x0, x22
-1000039a4: 97fffd7f    	bl	0x100002fa0 <_new_poly_from_string>
+1000039a4: 97fffda8    	bl	0x100003044 <_new_poly_from_string>
 1000039a8: aa0003f7    	mov	x23, x0
 1000039ac: aa1503e0    	mov	x0, x21
-1000039b0: 97fffd7c    	bl	0x100002fa0 <_new_poly_from_string>
+1000039b0: 97fffda5    	bl	0x100003044 <_new_poly_from_string>
 1000039b4: aa0003f8    	mov	x24, x0
 1000039b8: aa1703e0    	mov	x0, x23
-1000039bc: 97fffe26    	bl	0x100003254 <_print_poly>
+1000039bc: 97fffe21    	bl	0x100003240 <_print_poly>
 1000039c0: aa1803e0    	mov	x0, x24
-1000039c4: 97fffe24    	bl	0x100003254 <_print_poly>
+1000039c4: 97fffe1f    	bl	0x100003240 <_print_poly>
 1000039c8: aa1703e0    	mov	x0, x23
 1000039cc: aa1803e1    	mov	x1, x24
-1000039d0: 97fffdef    	bl	0x10000318c <_mul>
+1000039d0: 97fffdf4    	bl	0x1000031a0 <_mul>
 1000039d4: aa0003f9    	mov	x25, x0
-1000039d8: 97fffe1f    	bl	0x100003254 <_print_poly>
+1000039d8: 97fffe1a    	bl	0x100003240 <_print_poly>
 1000039dc: aa1703e0    	mov	x0, x23
-1000039e0: 97fffde1    	bl	0x100003164 <_free_poly>
+1000039e0: 97fffdef    	bl	0x10000319c <_free_poly>
 1000039e4: aa1803e0    	mov	x0, x24
-1000039e8: 97fffddf    	bl	0x100003164 <_free_poly>
+1000039e8: 97fffded    	bl	0x10000319c <_free_poly>
 1000039ec: aa1903e0    	mov	x0, x25
-1000039f0: 97fffddd    	bl	0x100003164 <_free_poly>
+1000039f0: 97fffdeb    	bl	0x10000319c <_free_poly>
 1000039f4: a90057f6    	stp	x22, x21, [sp]
 1000039f8: aa1403e0    	mov	x0, x20
 1000039fc: 9400006d    	bl	0x100003bb0 <_realloc+0x100003bb0>
@@ -698,26 +657,26 @@ Disassembly of section __TEXT,__text:
 100003a1c: aa1303e0    	mov	x0, x19
 100003a20: 94000064    	bl	0x100003bb0 <_realloc+0x100003bb0>
 100003a24: aa1603e0    	mov	x0, x22
-100003a28: 97fffd5e    	bl	0x100002fa0 <_new_poly_from_string>
+100003a28: 97fffd87    	bl	0x100003044 <_new_poly_from_string>
 100003a2c: aa0003f3    	mov	x19, x0
 100003a30: aa1503e0    	mov	x0, x21
-100003a34: 97fffd5b    	bl	0x100002fa0 <_new_poly_from_string>
+100003a34: 97fffd84    	bl	0x100003044 <_new_poly_from_string>
 100003a38: aa0003f7    	mov	x23, x0
 100003a3c: aa1303e0    	mov	x0, x19
-100003a40: 97fffe05    	bl	0x100003254 <_print_poly>
+100003a40: 97fffe00    	bl	0x100003240 <_print_poly>
 100003a44: aa1703e0    	mov	x0, x23
-100003a48: 97fffe03    	bl	0x100003254 <_print_poly>
+100003a48: 97fffdfe    	bl	0x100003240 <_print_poly>
 100003a4c: aa1303e0    	mov	x0, x19
 100003a50: aa1703e1    	mov	x1, x23
-100003a54: 97fffdce    	bl	0x10000318c <_mul>
+100003a54: 97fffdd3    	bl	0x1000031a0 <_mul>
 100003a58: aa0003f8    	mov	x24, x0
-100003a5c: 97fffdfe    	bl	0x100003254 <_print_poly>
+100003a5c: 97fffdf9    	bl	0x100003240 <_print_poly>
 100003a60: aa1303e0    	mov	x0, x19
-100003a64: 97fffdc0    	bl	0x100003164 <_free_poly>
+100003a64: 97fffdce    	bl	0x10000319c <_free_poly>
 100003a68: aa1703e0    	mov	x0, x23
-100003a6c: 97fffdbe    	bl	0x100003164 <_free_poly>
+100003a6c: 97fffdcc    	bl	0x10000319c <_free_poly>
 100003a70: aa1803e0    	mov	x0, x24
-100003a74: 97fffdbc    	bl	0x100003164 <_free_poly>
+100003a74: 97fffdca    	bl	0x10000319c <_free_poly>
 100003a78: a90057f6    	stp	x22, x21, [sp]
 100003a7c: aa1403e0    	mov	x0, x20
 100003a80: 9400004c    	bl	0x100003bb0 <_realloc+0x100003bb0>
